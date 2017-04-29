@@ -274,7 +274,7 @@ class GlobalRoom {
 
 		this.chatRoomData = [];
 		try {
-			this.chatRoomData = require('./config/chatrooms.json');
+			this.chatRoomData = require(DATA_DIR + 'chatrooms.json');
 			if (!Array.isArray(this.chatRoomData)) this.chatRoomData = [];
 		} catch (e) {} // file doesn't exist [yet]
 
