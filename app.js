@@ -128,8 +128,6 @@ global.sqlite3 = require('sqlite3');
 
 global.Db = require('origindb')(DB_DIR);
 
-global.EM = {};
-
 global.Rooms = require('./rooms');
 
 delete process.send; // in case we're a child process
