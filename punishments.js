@@ -321,7 +321,7 @@ Punishments.renderEntry = function (entry, id) {
  */
 Punishments.loadBanlist = function () {
 	return new Promise((resolve, reject) => {
-		fs.readFile(path.resolve(__dirname, DATA_DIR + 'ipbans.txt'), (err, data) => {
+		fs.readFile(path.resolve(DATA_DIR + 'ipbans.txt'), (err, data) => {
 			if (err && err.code === 'ENOENT') return resolve();
 			if (err) return reject(err);
 			data = ('' + data).split("\n");
