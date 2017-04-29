@@ -650,12 +650,13 @@ class GlobalRoom {
 			this.maxUsers = this.userCount;
 			this.maxUsersDate = Date.now();
 		}
-
+		EM.getTells(user);
 		return user;
 	}
 	onRename(user, oldid, joining) {
 		delete this.users[oldid];
 		this.users[user.userid] = user;
+		EM.getTells(user);
 		return user;
 	}
 	onUpdateIdentity() {}
