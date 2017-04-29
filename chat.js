@@ -39,6 +39,25 @@ const BROADCAST_TOKEN = '!';
 
 const fs = require('fs');
 const path = require('path');
+const parseEmoticons = require('./chat-plugins/emoticons').parseEmoticons;
+
+function getServersAds(text) {
+	let aux = text.toLowerCase();
+	let serversAds = [];
+	let spamindex;
+	let actualAd = '';
+	while (aux.indexOf(".psim.us") > -1) {
+		spamindex = aux.indexOf(".psim.us");
+		actualAd = '';
+		for (let i = spamindex - 1; i >= 0; i--) {
+			if (aux.charAt(i).replace(/[^a-z0-9]/g, '') === '') break;
+			actualAd = aux.charAt(i) + actualAd;
+		}
+		if (actualAd.length) serversAds.push(toId(actualAd));
+		aux = aux.substr(spamindex + ".psim.us".length);
+	}
+	return serversAds;
+}
 
 class PatternTester {
 	// This class sounds like a RegExp
@@ -167,18 +186,50 @@ class CommandContext {
 		// Output the message
 
 		if (message && message !== true && typeof message.then !== 'function') {
+				let emoticons = parseEmoticons(message);
+				let oldMessage = message;
 			if (this.pmTarget) {
+				let noEmotes = message;
+				let emoticons = parseEmoticons(message);
+				if(emoticons) {
+					noEmotes = message;
+					message = "/html " + emoticons;
+				}
 				let buf = `|pm|${this.user.getIdentity()}|${this.pmTarget.getIdentity()}|${message}`;
 				this.user.send(buf);
-				if (this.pmTarget !== this.user) this.pmTarget.send(buf);
-
+				if (Users.ShadowBan.checkBanned(this.user)) {
+					Users.ShadowBan.addMessage(this.user, "Mensaje privado a " + this.pmTarget.getIdentity(), noEmotes);
+				} else {
+					if (this.pmTarget !== this.user) this.pmTarget.send(buf);
+				}
 				this.pmTarget.lastPM = this.user.userid;
 				this.user.lastPM = this.pmTarget.userid;
-			} else {
-				this.room.add(`|c|${this.user.getIdentity(this.room.id)}|${message}`);
+				} else {
+				let emoticons = parseEmoticons(message);
+				if(emoticons && !this.room.disableEmoticons) {
+					if (Users.ShadowBan.checkBanned(this.user)) {
+						Users.ShadowBan.addMessage(this.user,this.room.id, message);
+						this.room.update();
+						return false;
+					}
+					for (let u in this.room.users) {
+						let curUser = Users(u);
+						if (!curUser || !curUser.connected) continue;
+						curUser.sendTo(this.room, (this.room.type === 'chat' ? '|c:|' + (~~(Date.now() / 1000)) + '|' : '|c|') + this.user.getIdentity(this.room.id) + '|/html ' + emoticons);
+					}
+					this.room.messageCount++;
+				} else {
+					if (Users.ShadowBan.checkBanned(this.user)) {
+						Users.ShadowBan.addMessage(this.user, "To " + this.room.id, message);
+						this.user.sendTo(this.room, (this.room.type === 'chat' ? '|c:|' + (~~(Date.now() / 1000)) + '|' : '|c|') + this.user.getIdentity(this.room.id) + '|' + message);
+					} else {
+						this.room.add((this.room.type === 'chat' ? (this.room.type === 'chat' ? '|c:|' + (~~(Date.now() / 1000)) + '|' : '|c|') : '|c|') + this.user.getIdentity(this.room.id) + '|' + message);
+						this.room.messageCount++;
+					}
+				}
+				//this.room.add(`|c|${this.user.getIdentity(this.room.id)}|${message}`);
 			}
 		}
-
 		this.update();
 
 		return message;
