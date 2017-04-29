@@ -824,6 +824,18 @@ class User {
 		this.named = (userid.substr(0, 5) !== 'guest');
 
 		if (this.named) Punishments.checkName(this, registered);
+		if (global.Permaban && !this.can('staff')) {
+				if (Permaban.permaBan[userid]) {
+					this.send("|popup|Your username (" + name + ") is banned.");
+					Punishments.ban(this, Date.now() + PERMALOCK_CACHE_TIME, userid, `Permabanned as ${name}`);
+					return;
+				}
+				if (Permaban.permaLock[userid]) {
+					this.send("|popup|Your username (" + name + ") is locked.");
+					this.lock(true, userid);
+				}
+			}
+		}
 
 		if (this.namelocked) this.named = true;
 
