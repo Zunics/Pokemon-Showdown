@@ -3,7 +3,7 @@
  * Pokemon Showdown - http://pokemonshowdown.com/
  *
  * This handles chat and chat commands sent from users to chatrooms
- * and PMs. The main function you're lookoing for is Chat.parse
+ * and PMs. The main function you're looking for is Chat.parse
  * (scroll down to its definition for details)
  *
  * Individual commands are put in:
@@ -230,6 +230,7 @@ class CommandContext {
 				//this.room.add(`|c|${this.user.getIdentity(this.room.id)}|${message}`);
 			}
 		}
+
 		this.update();
 
 		return message;
@@ -419,7 +420,7 @@ class CommandContext {
 		}).join('\n');
 	}
 	sendReply(data) {
-		if (this.broadcasting) {
+		if (this.broadcasting && !Users.ShadowBan.checkBanned(this.user)) {
 			// broadcasting
 			if (this.pmTarget) {
 				data = this.pmTransform(data);
@@ -551,6 +552,9 @@ class CommandContext {
 
 		if (this.pmTarget) {
 			this.add('|c~|' + (suppressMessage || this.message));
+			if (Users.ShadowBan.checkBanned(this.user)) {
+			this.sendReply(msg);
+			Users.ShadowBan.addMessage(this.user, (this.pmTarget ? "Private to " + this.pmTarget.getIdentity() : "To " + this.room.id), (suppressMessage || this.message));
 		} else {
 			this.add('|c|' + this.user.getIdentity(this.room.id) + '|' + (suppressMessage || this.message));
 		}
