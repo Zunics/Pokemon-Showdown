@@ -231,7 +231,7 @@ exports.commands = {
 	
 	hide: 'hideauth',
 	hideauth: function (target, room, user) {
-		if (!this.can('lock')) return false;
+		if (!user.can('lock')) return this.sendReply("/hideauth - Access Denied.");
 		let tar = ' ';
 		if (target) {
 			target = target.trim();
@@ -239,24 +239,26 @@ exports.commands = {
 				if (Config.groupsranking.indexOf(target) <= Config.groupsranking.indexOf(user.group)) {
 					tar = target;
 				} else {
-					this.sendReply('The group symbol you have tried to use is of a higher authority than you have access to. Defaulting to \'' + tar + 'instead.');
+					this.sendReply('The group symbol you have tried to use is of a higher authority than you have access to. Defaulting to \' \' instead.');
 				}
 			} else {
-				this.sendReply('You are now hiding your auth symbol as \'' + tar + '\'.');
+				this.sendReply('You have tried to use an invalid character as your auth symbol. Defaulting to \' \' instead.');
 			}
 		}
-		user.getIdentity = function (roomid) {
-			return tar + this.name;
-		};
+		user.customSymbol = tar;
 		user.updateIdentity();
-		return this.sendReply("You are now hiding your auth as ' " + tar + "'.");
+		this.sendReply('You are now hiding your auth symbol as \'' + tar + '\'.');
 	},
+	hidehelp: ["/hide - Hides user's global rank. Requires: & ~"],
 
 	show: 'showauth',
 	showauth: function (target, room, user) {
-		if (!this.can('lock')) return false;
-		delete user.getIdentity;
+		if (!user.can('lock')) return this.sendReply("/showauth - Access Denied.");
+		user.customSymbol = false;
 		user.updateIdentity();
-		return this.sendReply("You are now showing your authority!");
+		this.sendReply("You have now revealed your auth symbol.");
+		this.sendReply("Your symbol has been reset.");
 	},
+	showhelp: ["/show - Displays user's global rank. Requires: & ~"],
+
 };
