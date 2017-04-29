@@ -394,7 +394,7 @@ class GlobalRoom {
 		);
 
 		// Create writestream for modlog
-		this.modlogStream = fs.createWriteStream(path.resolve(__dirname, LOGS_DIR + 'modlog/modlog_global.txt'), {flags:'a+'});
+		this.modlogStream = fs.createWriteStream(path.resolve(LOGS_DIR + 'modlog/modlog_global.txt'), {flags:'a+'});
 	}
 
 	reportUserStats() {
@@ -1393,8 +1393,8 @@ Rooms.createChatRoom = function (roomid, title, data) {
 	return room;
 };
 
-Rooms.battleModlogStream = fs.createWriteStream(path.resolve(__dirname, LOGS_DIR +  'modlog/modlog_battle.txt'), {flags:'a+'});
-Rooms.groupchatModlogStream = fs.createWriteStream(path.resolve(__dirname, LOGS_DIR + 'modlog/modlog_groupchat.txt'), {flags:'a+'});
+Rooms.battleModlogStream = fs.createWriteStream(path.resolve(LOGS_DIR +  'modlog/modlog_battle.txt'), {flags:'a+'});
+Rooms.groupchatModlogStream = fs.createWriteStream(path.resolve(LOGS_DIR + 'modlog/modlog_groupchat.txt'), {flags:'a+'});
 
 Rooms.global = null;
 Rooms.lobby = null;
