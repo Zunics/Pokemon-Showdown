@@ -50,7 +50,7 @@ exports.commands = {
 					}
 					Economy.writeMoney(toId(user.name), -bought * lottery.ticketPrice);
 					lottery.pot = Math.round(lottery.pot + (lottery.ticketPrice * bought * 1.5));
-					Rooms.get('gamechamber').add("|raw|<b><font color=" + EM.Color(user.name) + ">" + user.name + "</font></b> has bought " + bought + " lottery tickets.");
+					Rooms.get('casino').add("|raw|<b><font color=" + EM.Color(user.name) + ">" + user.name + "</font></b> has bought " + bought + " lottery tickets.");
 					for (var x=bought; x>0; x--) {
 						lottery.players.push(toId(user.name));
 						lottery.playerIPS.push(user.latestIp);
@@ -66,7 +66,7 @@ exports.commands = {
 					}
 					Economy.writeMoney(toId(user.name), -lottery.ticketPrice);
 					lottery.pot = Math.round(lottery.pot + (lottery.ticketPrice * 1.5));
-					Rooms.get('gamechamber').add("|raw|<b><font color=" + EM.Color(user.name) + ">" + user.name + "</font></b> has bought a lottery ticket.");
+					Rooms.get('casino').add("|raw|<b><font color=" + EM.Color(user.name) + ">" + user.name + "</font></b> has bought a lottery ticket.");
 					lottery.players.push(toId(user.name));
 					lottery.playerIPS.push(user.latestIp);
 					saveLottery();
@@ -102,10 +102,10 @@ exports.commands = {
 						"A game of Lottery has started in <button name=\"send\" value=\"/join gamechamber\">Game Chamber</button>!<br />" +
 						"The ticket cost to join is <b> " + lottery.ticketPrice + "</b> Gold Bucks.  For every ticket bought, the server automatically matches that price towards the pot.<br />" +
 						"(For more information, hop in the room and do /lotto or ask for help!)</center>";
-					Gold.pmAll('/html ' + loto_notification, '~Gold Lottery');
-					Rooms.get('gamechamber').add('|raw|' + room_notification);
+					Gold.pmAll('/html ' + loto_notification, '~Ember Lottery');
+					Rooms.get('casino').add('|raw|' + room_notification);
 				} else {
-					Rooms.get('gamechamber').add('|raw|' + room_notification);
+					Rooms.get('casino').add('|raw|' + room_notification);
 				}
 				saveLottery();
 				break;
@@ -118,14 +118,14 @@ exports.commands = {
 				var jackpot = Math.floor(100 * Math.random()) + 1;
 				if (!lottery.pot == 0) {
 					if (jackpot == 100) {
-						Rooms.get("gamechamber").add('|raw|<b><font size="7" color="green"><blink>JACKPOT!</blink></font></b>');
-						Rooms.get("gamechamber").add('|raw|<b><font size="4" color="' + EM.Color(winner) + '">' + winner + '</b></font><font size="4"> has won the game of lottery for <b>' + (lottery.pot * 2) + '</b> bucks!</font>');
+						Rooms.get("casino").add('|raw|<b><font size="7" color="green"><blink>JACKPOT!</blink></font></b>');
+						Rooms.get("casino").add('|raw|<b><font size="4" color="' + EM.Color(winner) + '">' + winner + '</b></font><font size="4"> has won the game of lottery for <b>' + (lottery.pot * 2) + '</b> bucks!</font>');
 						Economy.writeMoney(toId(winner), lottery.pot * 2);
 						lottery = {};
 						saveLottery();
 					} else {
 						Economy.writeMoney(toId(winner), lottery.pot);
-						Rooms.get("gamechamber").add('|raw|<b><font size="4" color="' + EM.Color(winner) + '">' + winner + '</b></font><font size="4"> has won the game of lottery for <b>' + lottery.pot + '</b> bucks!</font>');
+						Rooms.get("casino").add('|raw|<b><font size="4" color="' + EM.Color(winner) + '">' + winner + '</b></font><font size="4"> has won the game of lottery for <b>' + lottery.pot + '</b> bucks!</font>');
 						lottery = {};
 						saveLottery();
 					}
