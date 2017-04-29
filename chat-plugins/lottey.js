@@ -57,7 +57,7 @@ exports.commands = {
 					}
 					saveLottery();
 				} else {
-					if (Economy.readMoneySync(toId(user.name)) < lottery.ticketPrice) return this.errorReply("You do not have enough bucks to partake in this game of Lottery.  Sorry.");
+					if (Economy.readMoney(toId(user.name)) < lottery.ticketPrice) return this.errorReply("You do not have enough bucks to partake in this game of Lottery.  Sorry.");
 					if (lottery.playerIPS.length > 1) {
 						var filteredPlayerArray = lottery.playerIPS.filter(function(ip) {
 							return ip === user.latestIp;
