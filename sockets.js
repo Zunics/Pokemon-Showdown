@@ -202,7 +202,7 @@ if (cluster.isMaster) {
 	}
 	try {
 		let nodestatic = require('node-static');
-		let cssserver = new nodestatic.Server('DATA_DIR');
+		let cssserver = new nodestatic.Server(DATA_DIR);
 		let avatarserver = new nodestatic.Server(DATA_DIR + 'avatars');
 		let staticserver = new nodestatic.Server('./static');
 		let staticRequestHandler = (request, response) => {
