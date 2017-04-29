@@ -344,9 +344,9 @@ class GlobalRoom {
 					.replace(/\{"title"\:/g, '\n{"title":')
 					.replace(/\]$/, '\n]');
 
-				fs.writeFile('config/chatrooms.json.0', data, () => {
+				fs.writeFile(DATA_DIR + 'chatrooms.json.0', data, () => {
 					data = null;
-					fs.rename('config/chatrooms.json.0', 'config/chatrooms.json', () => {
+					fs.rename(DATA_DIR + 'chatrooms.json.0', DATA_DIR + 'chatrooms.json', () => {
 						writing = false;
 						if (writePending) {
 							writePending = false;
@@ -394,7 +394,7 @@ class GlobalRoom {
 		);
 
 		// Create writestream for modlog
-		this.modlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_global.txt'), {flags:'a+'});
+		this.modlogStream = fs.createWriteStream(path.resolve(__dirname, LOGS_DIR + 'modlog/modlog_global.txt'), {flags:'a+'});
 	}
 
 	reportUserStats() {
@@ -1393,8 +1393,8 @@ Rooms.createChatRoom = function (roomid, title, data) {
 	return room;
 };
 
-Rooms.battleModlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_battle.txt'), {flags:'a+'});
-Rooms.groupchatModlogStream = fs.createWriteStream(path.resolve(__dirname, 'logs/modlog/modlog_groupchat.txt'), {flags:'a+'});
+Rooms.battleModlogStream = fs.createWriteStream(path.resolve(__dirname, LOGS_DIR +  'modlog/modlog_battle.txt'), {flags:'a+'});
+Rooms.groupchatModlogStream = fs.createWriteStream(path.resolve(__dirname, LOGS_DIR + 'modlog/modlog_groupchat.txt'), {flags:'a+'});
 
 Rooms.global = null;
 Rooms.lobby = null;
