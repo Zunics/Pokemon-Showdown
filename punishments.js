@@ -18,9 +18,9 @@ let Punishments = module.exports;
 const fs = require('fs');
 const path = require('path');
 
-const PUNISHMENT_FILE = path.resolve(__dirname, 'config/punishments.tsv');
-const ROOM_PUNISHMENT_FILE = path.resolve(__dirname, 'config/room-punishments.tsv');
-const SHAREDIPS_FILE = path.resolve(__dirname, 'config/sharedips.tsv');
+const PUNISHMENT_FILE = path.resolve(DATA_DIR + 'punishments.tsv');
+const ROOM_PUNISHMENT_FILE = path.resolve(DATA_DIR + 'room-punishments.tsv');
+const SHAREDIPS_FILE = path.resolve(DATA_DIR +  'sharedips.tsv');
 
 const RANGELOCK_DURATION = 60 * 60 * 1000; // 1 hour
 const LOCK_DURATION = 48 * 60 * 60 * 1000; // 48 hours
@@ -321,7 +321,7 @@ Punishments.renderEntry = function (entry, id) {
  */
 Punishments.loadBanlist = function () {
 	return new Promise((resolve, reject) => {
-		fs.readFile(path.resolve(__dirname, 'config/ipbans.txt'), (err, data) => {
+		fs.readFile(path.resolve(__dirname, DATA_DIR + 'ipbans.txt'), (err, data) => {
 			if (err && err.code === 'ENOENT') return resolve();
 			if (err) return reject(err);
 			data = ('' + data).split("\n");
