@@ -420,7 +420,7 @@ class CommandContext {
 		}).join('\n');
 	}
 	sendReply(data) {
-		if (this.broadcasting && !Users.ShadowBan.checkBanned(this.user)) {
+		if (this.broadcasting) {
 			// broadcasting
 			if (this.pmTarget) {
 				data = this.pmTransform(data);
@@ -552,9 +552,6 @@ class CommandContext {
 
 		if (this.pmTarget) {
 			this.add('|c~|' + (suppressMessage || this.message));
-			if (Users.ShadowBan.checkBanned(this.user)) {
-			this.sendReply(msg);
-			Users.ShadowBan.addMessage(this.user, (this.pmTarget ? "Private to " + this.pmTarget.getIdentity() : "To " + this.room.id), (suppressMessage || this.message));
 		} else {
 			this.add('|c|' + this.user.getIdentity(this.room.id) + '|' + (suppressMessage || this.message));
 		}
@@ -689,7 +686,7 @@ class CommandContext {
 			
 			//servers Spam
 			if (!user.can('bypassall') && Rooms('staff')) {
-				let serverexceptions = {'lightning': 1, 'showdown': 1, 'smogtours': 1};
+				let serverexceptions = {'ember': 1, 'showdown': 1, 'smogtours': 1};
 				if (Config.serverexceptions) {
 					for (var i in Config.serverexceptions) serverexceptions[i] = 1;
 				}
@@ -700,7 +697,7 @@ class CommandContext {
 						if (!serverexceptions[serverAd[i]]) {
 							if (!room && targetUser) {
 								connection.send('|pm|' + user.getIdentity() + '|' + targetUser.getIdentity() + '|' + message);
-								Rooms('staff').add('|c|' + user.getIdentity() + '|(__PM a ' + targetUser.getIdentity() + '__) -- ' + message);
+								Rooms('staff').add('|c|' + user.getIdentity() + '|(__PM to ' + targetUser.getIdentity() + '__) -- ' + message);
 								Rooms('staff').update();
 							} else if (room) {
 								connection.sendTo(room, '|c|' + user.getIdentity(room.id) + '|' + message);
