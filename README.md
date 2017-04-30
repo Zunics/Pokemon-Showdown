@@ -138,6 +138,11 @@ Pokémon Showdown's server is distributed under the terms of the [MIT License][1
 Credits
 ------------------------------------------------------------------------
 
+Development
+
+- DeltaSkiez - Sysadmin, Design, Development
+- Nobunny Usagi - Contributor, Metagames, Development
+
 Owner
 
 - Guangcong Luo [Zarel] - Development, Design, Sysadmin
