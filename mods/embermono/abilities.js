@@ -305,18 +305,21 @@ exports.BattleAbilities = {
 		num: 201,
 	},
 	"bigpecks": {
-		shortDesc: "Prevents other Pokemon from lowering this Pokemon's Defense stat stage.",
-		onBoost: function (boost, target, source, effect) {
-			if (source && target === source) return;
-			if (boost['def'] && boost['def'] < 0) {
-				delete boost['def'];
-				if (!effect.secondaries) this.add("-fail", target, "unboost", "Defense", "[from] ability: Big Pecks", "[of] " + target);
+		desc: "While this Pokemon is active, the power of Grass-type moves used by active Pokemon is multiplied by 1.33.",
+		shortDesc: "While this Pokemon is active, a Grass move used by any Pokemon has 1.33x power.",
+		onStart: function (pokemon) {
+			this.add('-ability', pokemon, 'Blooming Aura');
+		},
+		onAnyTryPrimaryHit: function (target, source, move) {
+			if (target === source || move.category === 'Status') return;
+			if (move.type === 'Grass') {
+				source.addVolatile('aura');
 			}
 		},
 		id: "bigpecks",
-		name: "Big Pecks",
-		rating: 0.5,
-		num: 145,
+		name: "Blooming Aura",
+		rating: 3,
+		num: 187,
 	},
 	"blaze": {
 		desc: "When this Pokemon has 1/3 or less of its maximum HP, rounded down, its attacking stat is multiplied by 1.5 while using a Fire-type attack.",
