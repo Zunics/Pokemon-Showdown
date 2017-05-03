@@ -772,7 +772,7 @@ exports.BattleScripts = {
 		if (!skipChecks) {
 			if (pokemon.side.zMoveUsed) return;
 			if (!item.zMove) return;
-			if (item.zMoveUser && !item.zMoveUser.includes(pokemon.species)) return;
+			if (item.zMoveUser && !item.zMoveUser.includes(pokemon.template.species)) return;
 			let moveData = pokemon.getMoveData(move);
 			if (!moveData || !moveData.pp) return; // Draining the PP of the base move prevents the corresponding Z-move from being used.
 		}
@@ -815,7 +815,7 @@ exports.BattleScripts = {
 		if (pokemon.side.zMoveUsed) return;
 		let item = pokemon.getItem();
 		if (!item.zMove) return;
-		if (item.zMoveUser && !item.zMoveUser.includes(pokemon.species)) return;
+		if (item.zMoveUser && !item.zMoveUser.includes(pokemon.template.species)) return;
 		let atLeastOne = false;
 		let zMoves = [];
 		for (let i = 0; i < pokemon.moves.length; i++) {
@@ -2303,7 +2303,7 @@ exports.BattleScripts = {
 		};
 		let customScale = {
 			// Banned Abilities
-			Gothitelle: 76, Politoed: 76, Wobbuffet: 76,
+			Gothitelle: 77, Politoed: 79, Wobbuffet: 77,
 
 			// Holistic judgement
 			Unown: 100,
@@ -2320,7 +2320,7 @@ exports.BattleScripts = {
 
 		// Custom level based on moveset
 		if (ability === 'Power Construct') level = 73;
-		if (hasMove['batonpass'] && level > 75) level = 75;
+		if (hasMove['batonpass'] && counter.setupType && level > 77) level = 77;
 		// if (template.name === 'Slurpuff' && !counter.setupType) level = 81;
 		// if (template.name === 'Xerneas' && hasMove['geomancy']) level = 71;
 

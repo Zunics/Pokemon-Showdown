@@ -297,12 +297,8 @@ exports.Formats = [
 		ruleset: ['[Gen 7] OU'],
 		banlist: ['Endeavor'],
 		onBeforeFaint: function (pokemon, source) {
-			this.add('-hint', `${pokemon.name || pokemon.species}'s Last Will made it get off one last move!`);
-			if (pokemon === source) {
-				this.useMove(pokemon.moves[pokemon.moves.length - 1], pokemon);
-			} else {
-				this.useMove(pokemon.moves[pokemon.moves.length - 1], pokemon, source);
-			}
+			this.add('-hint', `${pokemon.name || pokemon.species}'s Last Will let it use one last move!`);
+			this.useMove(pokemon.moves[pokemon.moves.length - 1], pokemon);
 		},
 	},
 	{
@@ -376,9 +372,9 @@ exports.Formats = [
 			return this.validateSet(set, teamHas, mixedTemplate);
 		},
 		onModifyTemplate: function (template, pokemon) {
-			if (pokemon.set.name === pokemon.set.species) return template;
+			if (pokemon.crossEvolved || !pokemon.set.name) return template;
 			let crossTemplate = this.getTemplate(pokemon.name);
-			if (!crossTemplate.exists) return template;
+			if (!crossTemplate.exists || crossTemplate.num === template.num) return template;
 			let crossPrevoTemplate = this.getTemplate(crossTemplate.prevo);
 			let mixedTemplate = Object.assign({}, template);
 			mixedTemplate.baseSpecies = mixedTemplate.species = template.species + '-' + crossTemplate.species;
@@ -453,21 +449,12 @@ exports.Formats = [
 		],
 
 		mod: 'gen7',
-		searchShow: false,
 		ruleset: ['Pokemon', 'Standard', 'Swagger Clause', 'Same Type Clause', 'Team Preview'],
 		banlist: [
 			'Aegislash', 'Arceus', 'Blaziken', 'Darkrai', 'Deoxys-Base', 'Deoxys-Attack', 'Dialga', 'Genesect', 'Giratina', 'Groudon', 'Ho-Oh', 'Hoopa-Unbound', 'Kartana', 'Kyogre',
 			'Kyurem-White', 'Lugia', 'Lunala', 'Mewtwo', 'Palkia', 'Pheromosa', 'Rayquaza', 'Reshiram', 'Shaymin-Sky', 'Solgaleo', 'Tapu Lele', 'Xerneas', 'Yveltal', 'Zekrom', 'Zygarde',
 			'Battle Bond', 'Damp Rock', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Mawilite', 'Metagrossite', 'Salamencite', 'Smooth Rock', 'Terrain Extender', 'Baton Pass',
 		],
-	},
-	{
-		name: "[Gen 7] Monotype (suspect test)",
-		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3601387/\">Monotype Suspect Discussion</a>"],
-
-		mod: 'gen7',
-		challengeShow: false,
-		ruleset: ['[Gen 7] Monotype'],
 	},
 	{
 		name: "[Gen 7] Mix and Mega",
