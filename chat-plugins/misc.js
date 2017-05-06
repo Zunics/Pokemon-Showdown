@@ -46,7 +46,7 @@ const messages = [
     "kicked his modem in error",
 ];
  exports.commands = {
-		        hoster: {
+	hoster: {
         	add: function (target, room, user, userid) {
 			if (!this.userid == 'deltaskiez') return this.errorReply('This command can only be used by DeltaSkiez');
 			let hoster = toId(target);
