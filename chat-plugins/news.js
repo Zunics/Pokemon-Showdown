@@ -1,7 +1,6 @@
 /**
- * News System for SpacialGaze
+ * News System
  * This Shows News via the /news view command and sends news ns PMs when users connect to the server if they have subscribed
- * Uses nef to add News to nef's json database
  * Credits: Lord Haji, HoeenHero
  * @license MIT license
  */
@@ -94,10 +93,10 @@ exports.commands = {
 			this.popupReply("|wide||html|You will no longer automatically receive Ember News.<br><hr><center><button class='button' name='send' value='/news'>View News</button></center>");
 		},
 	},
-	serverannouncementshelp: ["/news view - Views current SpacialGaze news.",
+	serverannouncementshelp: ["/news view - Views current Ember news.",
 		"/news delete [news title] - Deletes announcement with the [title]. Requires @, &, ~",
 		"/news add [news title], [news desc] - Adds news [news]. Requires @, &, ~",
-		"/news subscribe - Subscribes to SpacialGaze News.",
-		"/news unsubscribe - Unsubscribes to SpacialGaze News.",
+		"/news subscribe - Subscribes to Ember News.",
+		"/news unsubscribe - Unsubscribes to Ember News.",
 	],
 };
