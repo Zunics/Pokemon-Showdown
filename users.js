@@ -1553,7 +1553,6 @@ Users.socketConnect = function (worker, workerid, socketid, ip, protocol) {
 	});
 
 	user.joinRoom('global', connection);
-	newsDisplay(user.name);
 
 };
 
