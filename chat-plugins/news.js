@@ -11,21 +11,21 @@ const notifiedUsers = {};
 
 function generateNews() {
 	let newsData, newsDisplay = [];
-	let keys = Db.news.keys();
+	let keys = Db('news').keys();
 	for (let i = 0; i < keys.length; i++) {
-		newsData = Db.news.get(keys[i]);
+		newsData = Db('news').get(keys[i]);
 		newsDisplay.push(`<h4>${keys[i]}</h4>${newsData[1]}<br /><br />—${EM.nameColor(newsData[0], true)} <small>on ${newsData[2]}</small>`);
 	}
 	return newsDisplay;
 }
 
 function showSubButton(userid) {
-	let hasSubscribed = Db.NewsSubscribers.get(userid, false);
+	let hasSubscribed = Db('NewsSubscribers').get(userid, false);
 	return `<hr><center><button class="button" name="send" value="/news ${(hasSubscribed ? `unsubscribe` : `subscribe`)}">${(hasSubscribed ? `Unsubscribe from the news` : `Subscribe to the news`)}</button></center>`;
 }
 EM.showNews = function (userid, user) {
 	if (!user || !userid) return false;
-	if (!Db.NewsSubscribers.has(userid) || (userid in notifiedUsers)) return false;
+	if (!Db('NewsSubscribers').has(userid) || (userid in notifiedUsers)) return false;
 	let newsDisplay = generateNews();
 	if (newsDisplay.length > 0) {
 		newsDisplay = `${newsDisplay.join(`<hr>`)}${showSubButton(userid)}`;
@@ -52,8 +52,8 @@ exports.commands = {
 		delete: function (target, room, user) {
 			if (!this.can('ban')) return false;
 			if (!target) return this.parse('/help serverannouncements');
-			if (!Db.news.has(target)) return this.errorReply("News with this title doesn't exist.");
-			Db.news.remove(target);
+			if (!Db('news').has(target)) return this.errorReply("News with this title doesn't exist.");
+			Db('news').delete(target);
 			this.privateModCommand(`(${user.name} deleted server announcement titled: ${target}.)`);
 		},
 		add: function (target, room, user) {
@@ -75,20 +75,20 @@ exports.commands = {
 				"July", "Aug", "Sep", "Oct", "Nov", "Dec",
 			];
 			let postTime = `${MonthNames[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
-			Db.news.set(title, [postedBy, desc, postTime]);
+			Db('news').set(title, [postedBy, desc, postTime]);
 			this.privateModCommand(`(${user.name} added server announcement: ${parts[0]})`);
 		},
 		subscribe: function (target, room, user) {
 			if (!user.named) return this.errorReply('You must choose a name before subscribing');
-			if (Db.NewsSubscribers.has(user.userid)) return this.errorReply("You are alreading subscribing Ember News.");
-			Db.NewsSubscribers.set(user.userid, true);
+			if (Db('NewsSubscribers').has(user.userid)) return this.errorReply("You are alreading subscribing Ember News.");
+			Db('NewsSubscribers').set(user.userid, true);
 			this.sendReply("You have subscribed Ember News.");
 			this.popupReply("|wide||html|You will receive Ember News automatically once you connect to the Ember next time.<br><hr><center><button class='button' name='send' value ='/news'>View News</button></center>");
 		},
 		unsubscribe: function (target, room, user) {
 			if (!user.named) return this.errorReply('You must choose a name before unsubscribing');
-			if (!Db.NewsSubscribers.has(user.userid)) return this.errorReply("You have not subscribed SpacialGaze News.");
-			Db.NewsSubscribers.remove(user.userid);
+			if (!Db('NewsSubscribers').has(user.userid)) return this.errorReply("You have not subscribed SpacialGaze News.");
+			Db('NewsSubscribers').delete(user.userid);
 			this.sendReply("You have unsubscribed Ember News.");
 			this.popupReply("|wide||html|You will no longer automatically receive Ember News.<br><hr><center><button class='button' name='send' value='/news'>View News</button></center>");
 		},
