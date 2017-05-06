@@ -136,7 +136,6 @@ const messages = [
 		if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
 		if (Users.ShadowBan.checkBanned(user)) return;
 		target = this.splitTarget(target);
-		if (this.targetUsername === 'servernews') return this.errorReply("These are the server news.");
 		if (this.targetUsername === 'unreadmessages') return this.errorReply("This is the server offline chat system.");
 		let targetUser = this.targetUsername;
 		let id = toId(targetUser);
