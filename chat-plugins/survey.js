@@ -1,8 +1,3 @@
-/***********************************
-	Survey commands for
-	spacialgaze.psim.us
-	coded by HoeenHero
-***********************************/
 'use strict';
 
 class Survey {
