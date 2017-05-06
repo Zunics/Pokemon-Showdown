@@ -663,7 +663,7 @@ class User {
 		} else {
 			this.send(`|nametaken|${name}|Your authentication token was invalid.`);
 		}
-
+		EM.showNews(userid, this);
 		return false;
 	}
 	validateRename(name, tokenData, newlyRegistered, challenge) {
