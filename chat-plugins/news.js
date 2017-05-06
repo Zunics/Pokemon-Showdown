@@ -44,7 +44,7 @@ exports.commands = {
 		display: 'view',
 		view: function (target, room, user) {
 			if (!this.runBroadcast()) return;
-			let output = `<center><strong>SpacialGaze News:</strong></center>${generateNews().join(`<hr>`)}${showSubButton(user.userid)}`;
+			let output = `<center><strong>Ember News:</strong></center>${generateNews().join(`<hr>`)}${showSubButton(user.userid)}`;
 			if (this.broadcasting) return this.sendReplyBox(`<div class="infobox-limited">${output}</div>`);
 			return user.send(`|popup||wide||html|${output}`);
 		},
