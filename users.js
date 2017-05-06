@@ -1553,7 +1553,6 @@ Users.socketConnect = function (worker, workerid, socketid, ip, protocol) {
 	});
 
 	user.joinRoom('global', connection);
-
 };
 
 Users.socketDisconnect = function (worker, workerid, socketid) {
