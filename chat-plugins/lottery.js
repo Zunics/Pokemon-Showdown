@@ -93,16 +93,16 @@ exports.commands = {
 				let room_notification =
 					"<div class=\"broadcast-gold\"><center><b><font size=4 color=red>Lottery Game!</font></b><br />" +
 					"<i><font color=gray>(Started by: " + Chat.escapeHTML(user.name) + ")</font></i><br />" +
-					"A game of lottery has been started!  Cost to join is <b>" + EM.lottery.ticketPrice + "</b> Gold bucks.<br />" +
+					"A game of lottery has been started!  Cost to join is <b>" + EM.lottery.ticketPrice + "</b> Bucks.<br />" +
 					"To buy a ticket, do <code>/lotto join</code>. (Max tickets per user: " + EM.lottery.maxTicketsPerUser + ")</center></div>";
 				if (parts[2] === 'pmall') {
 					if (!this.can('hotpatch')) return false;
 					let loto_notification =
 						"<center><font size=5 color=red><b>Lottery Game!</b></font><br />" +
-						"A game of Lottery has started in <button name=\"send\" value=\"/join gamechamber\">Game Chamber</button>!<br />" +
-						"The ticket cost to join is <b> " + EM.lottery.ticketPrice + "</b> Gold Bucks.  For every ticket bought, the server automatically matches that price towards the pot.<br />" +
+						"A game of Lottery has started in <button name=\"send\" value=\"/join casino\">Casino</button>!<br />" +
+						"The ticket cost to join is <b> " + EM.lottery.ticketPrice + "</b> Bucks.  For every ticket bought, the server automatically matches that price towards the pot.<br />" +
 						"(For more information, hop in the room and do /lotto or ask for help!)</center>";
-					EM.pmAll('/html ' + loto_notification, '~Ember Lottery');
+					EM.pmall('/html ' + loto_notification, '~Ember Lottery');
 					Rooms.get('casino').add('|raw|' + room_notification);
 				} else {
 					Rooms.get('casino').add('|raw|' + room_notification);
