@@ -72,7 +72,7 @@ function leaguePM(message, league) {
 
 function leagueLog(message, league) {
 	let leagueid = toId(league);
-	fs.appendFile(LOGS_DIR + '/leagues/' + leagueid + '.log', '[' + new Date().toUTCString() + '] ' + message + '\n');
+	fs.appendFile(LOGS_DIR + 'leagues/' + leagueid + '.log', '[' + new Date().toUTCString() + '] ' + message + '\n');
 }
 
 function getBadges(user) {
