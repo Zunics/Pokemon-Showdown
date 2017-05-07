@@ -41,7 +41,7 @@ exports.commands = {
 					if (Number(parts[1]) < 1) return this.errorReply("Cannot be less than 1.");
 					let bought = parts[1];
 					if (bought > EM.lottery.maxTicketsPerUser) return this.errorReply("You cannot get this many lottery tickets.");
-					if (bought * EM.lottery.ticketPrice > Economy.readMoney(user.userid, 0)) return this.errorReply("Sorry, you do not have enough bucks to buy that many tickets.");
+					if (bought * EM.lottery.ticketPrice > Db('money').get(user.userid, 0)) return this.errorReply("Sorry, you do not have enough bucks to buy that many tickets.");
 					if (EM.lottery.playerIPS.length > 1) {
 						let filteredPlayerArray = EM.lottery.playerIPS.filter(function(ip) {
 							return ip === user.latestIp;
@@ -185,7 +185,7 @@ exports.commands = {
 					"<u>Lottery Game Status:</u><br />" +
 					"Game started by: <b><font color=" + EM.Color(EM.lottery.createdBy) + ">" + Chat.escapeHTML(EM.lottery.createdBy) + "</font></b><br />" +
 					"Pot: <b>" + lottery.pot + " Bucks</b><br />" +
-					"Ticket price: <b>" + EM.lottery.ticketPrice + " Gold bucks</b><br />" +
+					"Ticket price: <b>" + EM.lottery.ticketPrice + " Bucks</b><br />" +
 					"Game started: <b>" + moment(EM.lottery.startTime).fromNow() + "</b><br />" +
 					"Max tickets per user: <b>" + EM.lottery.maxTicketsPerUser + "</b><br />" +
 					"<b>Tickets bought (" + EM.lottery.players.length + "):</b><br />" +
@@ -214,7 +214,6 @@ exports.commands = {
 				if (!this.runBroadcast()) return;
 				this.sendReplyBox(
 					"<center><b>Lottery Commands</b><br />" +
-					"<i><font color=gray>(By: <a href=\"https://github.com/panpawn/Pokemon-Showdown/blob/master/chat-plugins/lottery.js\" class=\"subtle\">panpawn</a>)</font></i></center><br />" +
 					"<code>/lotto create, [ticket price]</code> - Starts a game of lotto with the respected ticket price. (Requires @, #, &, ~)<br />" +
 					"<code>/lotto create, [ticket price], pmall</code> - Starts a game of lotto with the respected ticket price AND notifies everyone. (Requires ~)<br />" +
 					"<code>/lotto join</code> OR <code>/loto buy</code> - Buys 1 ticket for the current game of loto (no cap set as of now).<br />" +
