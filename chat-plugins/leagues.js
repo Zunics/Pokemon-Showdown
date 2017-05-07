@@ -66,7 +66,7 @@ function leaguePM(message, league) {
 	if (!leagues[leagueid]) return;
 	for (let u in leagues[leagueid].users) {
 		if (!Users(leagues[leagueid].users[u]) || !Users(leagues[leagueid].users[u]).connected) continue;
-		Users(leagues[leagueid].users[u]).send("|pm|~Exiled Server|~|/raw " + message);
+		Users(leagues[leagueid].users[u]).send("|pm|~Ember Server|~|/raw " + message);
 	}
 }
 
@@ -91,7 +91,7 @@ function getBadges(user) {
 	}
 	return (Object.keys(badges).length > 0 ? badges : false);
 }
-Exiled.getBadges = getBadges;
+EM.getBadges = getBadges;
 
 function getLeague(user) {
 	user = toId(user);
@@ -104,7 +104,7 @@ function getLeague(user) {
 	}
 	return reply;
 }
-Exiled.getLeague = getLeague;
+EM.getLeague = getLeague;
 
 function getLeagueRank(user) {
 	user = toId(user);
@@ -115,7 +115,7 @@ function getLeagueRank(user) {
 		if (leagues[league].ranks[rank].users.includes(user)) return leagues[league].ranks[rank].title;
 	}
 }
-Exiled.getLeagueRank = getLeagueRank;
+EM.getLeagueRank = getLeagueRank;
 
 // Storage.importTeam from https://github.com/Zarel/Pokemon-Showdown-Client/blob/master/js/storage.js#L969
 
@@ -367,7 +367,7 @@ function getTeam(link, callback) {
 		});
 	});
 }
-Exiled.getTeam = getTeam;
+EM.getTeam = getTeam;
 
 function isOdd(number) {
 	return (number % 2) === 1;
@@ -421,16 +421,16 @@ function leagueTourPoints(winner, runnerup, tourSize, room) {
 		leagues[winnerLeague].points += winnerPoints;
 		save();
 		logPoints(winner, winnerPoints, "First place in a tournament in " + room.id);
-		room.addRaw("<b>" + Exiled.nameColor(winner, true) + " has won " + winnerPoints + (winnerPoints === 1 ? " point " : " points ") + " for " + Chat.escapeHTML(leagues[winnerLeague].name) + "</b>");
+		room.addRaw("<b>" + EM.nameColor(winner, true) + " has won " + winnerPoints + (winnerPoints === 1 ? " point " : " points ") + " for " + Chat.escapeHTML(leagues[winnerLeague].name) + "</b>");
 	}
 	if (secondLeague && secondPoints > 0) {
 		leagues[secondLeague].points += secondPoints;
 		save();
 		logPoints(runnerup, secondPoints, "Second place in a tournament in " + room.id);
-		room.addRaw("<b>" + Exiled.nameColor(runnerup, true) + " has won " + secondPoints + (secondPoints === 1 ? " point " : " points ") + " for " + Chat.escapeHTML(leagues[secondLeague].name) + "</b>");
+		room.addRaw("<b>" + EM.nameColor(runnerup, true) + " has won " + secondPoints + (secondPoints === 1 ? " point " : " points ") + " for " + Chat.escapeHTML(leagues[secondLeague].name) + "</b>");
 	}
 }
-Exiled.leagueTourPoints = leagueTourPoints;
+EM.leagueTourPoints = leagueTourPoints;
 
 function isLvLBattle(p1, p2, id, status, types, score) {
 	let leagueId = toId(getLeague(p1));
@@ -458,8 +458,8 @@ function isLvLBattle(p1, p2, id, status, types, score) {
 				room.lvl.status[statusNumber] = id;
 			}
 			lvlDisplay(room);
-			room.add('|raw|<a href="/' + id + '">The League vs League battle between ' + Exiled.nameColor(p1, true) + ' (' + Chat.escapeHTML(leagues[leagueId].name) + ') and ' +
-				Exiled.nameColor(p2, true) + ' (' + Chat.escapeHTML(leagues[targetLeagueid].name) + ') has begun.</a>');
+			room.add('|raw|<a href="/' + id + '">The League vs League battle between ' + EM.nameColor(p1, true) + ' (' + Chat.escapeHTML(leagues[leagueId].name) + ') and ' +
+				EM.nameColor(p2, true) + ' (' + Chat.escapeHTML(leagues[targetLeagueid].name) + ') has begun.</a>');
 		} else if (status === 'types') {
 			if (room.lvl.mode === "normal") {
 				room.lvl.types[room.lvl.statusNumber] = types;
@@ -547,17 +547,17 @@ function isLvLBattle(p1, p2, id, status, types, score) {
 				room.lvl.status[statusNumber] = 2;
 			}
 			lvlDisplay(room);
-			room.add("|raw|The League vs League battle between " + Exiled.nameColor(p1, true) + " and " + Exiled.nameColor(p2, true) + " ended with a tie. They have to have a rematch.");
+			room.add("|raw|The League vs League battle between " + EM.nameColor(p1, true) + " and " + EM.nameColor(p2, true) + " ended with a tie. They have to have a rematch.");
 			room.update();
 		}
 	}
 }
-Exiled.isLvLBattle = isLvLBattle;
+EM.isLvLBattle = isLvLBattle;
 
 function lvlDisplay(room) {
 	let output = '';
 	output += '<center><font size="6">League vs League</font><br />';
-	output += '<font color="grey"><small>(experimental - report any bugs to jd or Tailz)</small></font>';
+	output += '<font color="grey"><small>(experimental - report any bugs to DeltaSkiez)</small></font>';
 	output += '<font color="grey"><small>(' + room.lvl.size + 'v' + room.lvl.size + ') (mode: ' + Chat.escapeHTML(room.lvl.mode) + ')</small></font><br /><br />';
 	output += '<table><tr><th><font size="5">' + Chat.escapeHTML(room.lvl.leagues[0].name) + '</font></th><td>vs</td><th><font size="5">' + Chat.escapeHTML(room.lvl.leagues[1].name) + '</font></th></tr>';
 
@@ -639,7 +639,7 @@ function lvlDisplay(room) {
 	room.add('|uhtml|lvl-' + room.lvl.lvlId + '|<div class="infobox">' + output + '</div>');
 	room.update();
 }
-Exiled.lvlDisplay = lvlDisplay;
+EM.lvlDisplay = lvlDisplay;
 
 exports.commands = {
 	leagues: 'league',
@@ -753,7 +753,7 @@ exports.commands = {
 			leagues[leagueid].pendingInvites.push(targetUser.userid);
 			save();
 			leagueLog(user.name + " has invited " + targetUser.name + " to join the league.", leagueid);
-			leaguePM(Exiled.nameColor(user.name, true) + " has invited " + Exiled.nameColor(targetUser.name, true) + " to join the league.", leagueid);
+			leaguePM(EM.nameColor(user.name, true) + " has invited " + EM.nameColor(targetUser.name, true) + " to join the league.", leagueid);
 			let message = "/html has invited you to join the league " + Chat.escapeHTML(leagues[leagueid].name) + ". <br />" +
 				"<button name=\"send\" value=\"/league accept " + leagueid + "\">Click to accept</button> | <button name=\"send\" value=\"/league decline " + leagueid +
 				"\">Click to decline</button>";
@@ -776,7 +776,7 @@ exports.commands = {
 			leagues[leagueid].pendingInvites.splice(leagues[leagueid].pendingInvites.indexOf(user.userid), 1);
 			save();
 			leagueLog(user.name + " has accepted their invitation to join the league.", leagueid);
-			leaguePM(Exiled.nameColor(user.name, true) + " has accepted their invitation to join the league.", leagueid);
+			leaguePM(EM.nameColor(user.name, true) + " has accepted their invitation to join the league.", leagueid);
 
 			user.popup("You've accepted the invitation to join " + leagues[leagueid].name + ".");
 		},
@@ -790,7 +790,7 @@ exports.commands = {
 			leagues[leagueid].pendingInvites.splice(leagues[leagueid].pendingInvites.indexOf(user.userid), 1);
 			save();
 			leagueLog(user.name + " has declined their invitation to join the league.", leagueid);
-			leaguePM(Exiled.nameColor(user.name, true) + " has declined their invitation to join the league.", leagueid);
+			leaguePM(EM.nameColor(user.name, true) + " has declined their invitation to join the league.", leagueid);
 			user.popup("You've declined the invitation to join " + leagues[leagueid].name + ".");
 		},
 
@@ -813,9 +813,9 @@ exports.commands = {
 			leagues[leagueid].users.splice(leagues[leagueid].users.indexOf(targetid), 1);
 			save();
 			leagueLog(user.name + " has kicked " + target + " from the league.", leagueid);
-			leaguePM(Exiled.nameColor(user.name, true) + " has kicked " + Exiled.nameColor(target, true) + " from the league.", leagueid);
+			leaguePM(EM.nameColor(user.name, true) + " has kicked " + EM.nameColor(target, true) + " from the league.", leagueid);
 
-			if (Users(target) && Users(target).connected) Users(target).send("|popup||html|" + Exiled.nameColor(user.name, true) + " has kicked you from the league " + Chat.escapeHTML(leagues[leagueid].name) + ".");
+			if (Users(target) && Users(target).connected) Users(target).send("|popup||html|" + EM.nameColor(user.name, true) + " has kicked you from the league " + Chat.escapeHTML(leagues[leagueid].name) + ".");
 			this.sendReply("You've kicked " + target + " from " + leagues[leagueid].name + ".");
 		},
 
@@ -831,7 +831,7 @@ exports.commands = {
 			leagues[leagueid].users.splice(leagues[leagueid].users.indexOf(user.userid), 1);
 			save();
 			leagueLog(user.name + " has left the league.", leagueid);
-			leaguePM(Exiled.nameColor(user.name, true) + " has left the league.", leagueid);
+			leaguePM(EM.nameColor(user.name, true) + " has left the league.", leagueid);
 			this.sendReply("You have left " + leagues[leagueid].name + ".");
 		},
 
@@ -849,7 +849,7 @@ exports.commands = {
 			leagues[leagueid].desc = target;
 			save();
 			leagueLog(user.name + " has set the league description to '" + target + "'.", leagueid);
-			leaguePM(Exiled.nameColor(user.name, true) + " has set the league description to '" + Chat.escapeHTML(target) + "'.", leagueid);
+			leaguePM(EM.nameColor(user.name, true) + " has set the league description to '" + Chat.escapeHTML(target) + "'.", leagueid);
 			this.sendReply("You've changed the league description.");
 		},
 
@@ -865,7 +865,7 @@ exports.commands = {
 			if (!hasPermission(user.userid, 'masspm')) return this.errorReply("You don't have permission to send a league pm.");
 
 			leagueLog(user.name + " has sent out a league pm: " + target, leagueid);
-			leaguePM("League announcement from " + Exiled.nameColor(user.name, true) + ":<br />" + Chat.escapeHTML(target), leagueid);
+			leaguePM("League announcement from " + EM.nameColor(user.name, true) + ":<br />" + Chat.escapeHTML(target), leagueid);
 		},
 
 		members: function (target, room, user) {
@@ -881,7 +881,7 @@ exports.commands = {
 				output += Chat.escapeHTML(leagues[target].ranks[curRank].title) + " (" + leagues[target].ranks[curRank].users.length + "):\n";
 				for (let u in leagues[target].ranks[curRank].users) {
 					let curUser = leagues[target].ranks[curRank].users[u];
-					users.push(Exiled.nameColor(curUser, (Users(curUser) && Users(curUser).connected)));
+					users.push(EM.nameColor(curUser, (Users(curUser) && Users(curUser).connected)));
 				}
 				output += users.join(',');
 				output += "\n\n";
