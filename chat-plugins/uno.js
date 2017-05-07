@@ -409,7 +409,24 @@ class UNOgame extends Rooms.RoomGame {
 	}
 
 	onWin(player) {
-		this.sendToRoom(`|raw|<div class="broadcast-green">Congratulations to ${player.name} for winning the game of UNO!</div>`, true);
+		this.sendToRoom(`|raw|<div class="broadcast-green">Congratulations to ${EM.nameColor(player.name, true)} for winning the game of UNO!</div>`, true);
+		let targetUserid = toId(player.name);
+		let prize = 2;
+		prize += Math.floor(this.playerCount / 5);
+		if (Users(targetUserid).unoBoost) prize *= 2;
+		if (Users(targetUserid).gameBoost) prize *= 2;
+		if (this.room.isOfficial) {
+			Economy.writeMoney(targetUserid, prize, newAmount => {
+				if (Users(targetUserid) && Users(targetUserid).connected) {
+					Users.get(targetUserid).popup('You have received ' + prize + ' ' + (prize === 1 ? global.moneyName : global.moneyPlural) + ' from winning the game of UNO.');
+				}
+				Economy.logTransaction(player.name + ' has won ' + prize + ' ' + (prize === 1 ? global.moneyName : global.moneyPlural) + ' from a game of UNO.');
+			});
+			for (let i = 0; i < this.players.length; i++) {
+				if (Users(this.players[i].unoBoost)) Users(this.players[i]).unoBoost = false;
+				if (Users(this.players[i].gameBoost)) Users(this.players[i]).gameBoost = false;
+			}
+		}
 		this.destroy();
 	}
 
