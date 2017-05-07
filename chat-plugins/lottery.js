@@ -41,7 +41,7 @@ exports.commands = {
 					if (Number(parts[1]) < 1) return this.errorReply("Cannot be less than 1.");
 					let bought = parts[1];
 					if (bought > EM.lottery.maxTicketsPerUser) return this.errorReply("You cannot get this many lottery tickets.");
-					if (bought * EM.lottery.ticketPrice > Economy.readMoney(user.userid)) return this.errorReply("Sorry, you do not have enough bucks to buy that many tickets.");
+					if (bought * EM.lottery.ticketPrice > Economy.readMoney(user.userid, 0)) return this.errorReply("Sorry, you do not have enough bucks to buy that many tickets.");
 					if (EM.lottery.playerIPS.length > 1) {
 						let filteredPlayerArray = EM.lottery.playerIPS.filter(function(ip) {
 							return ip === user.latestIp;
