@@ -58,7 +58,7 @@ function logPointsUser(user, league, amount, reason) {
 
 function log(message) {
 	if (!message) return false;
-	fs.appendFile(LOGS_DIR + 'leagues.log', '[' + new Date().toUTCString() + '] ' + message + '\n');
+	fs.appendFile(LOGS_DIR + 'leagues.txt', '[' + new Date().toUTCString() + '] ' + message + '\n');
 }
 
 function leaguePM(message, league) {
@@ -72,7 +72,7 @@ function leaguePM(message, league) {
 
 function leagueLog(message, league) {
 	let leagueid = toId(league);
-	fs.appendFile(LOGS_DIR + 'leagues/' + leagueid + '.log', '[' + new Date().toUTCString() + '] ' + message + '\n');
+	fs.appendFile(LOGS_DIR + 'leagues/' + leagueid + '.txt', '[' + new Date().toUTCString() + '] ' + message + '\n');
 }
 
 function getBadges(user) {
