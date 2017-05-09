@@ -1,6 +1,6 @@
 /**
 Meadow Plugins
- */
+ **/
 EM.nameColor = function (name, bold) {
         return (bold ? "<b>" : "") + "<font color=" + EM.Color(name) + ">" + (Users(name) && Users(name).connected && Users.getExact(name) ? Chat.escapeHTML(Users.getExact(name).name) : Chat.escapeHTML(name)) + "</font>" + (bold ? "</b>" : "");
 };
