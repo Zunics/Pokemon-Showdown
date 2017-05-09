@@ -114,24 +114,27 @@ const messages = [
 		Config.poofOff = false;
 		return this.sendReply("Poof is now enabled.");
 	},
-	    
-		credit: 'credits',
+	 
+	credit: 'credits',
 	credits: function (target, room, user) {
-		this.popupReply("|html|" + "<font size=5>Meadow Server Credits</font><br />" +
-					"<u>Major Contributors:</u><br />" +
-					"- " + EM.nameColor('DeltaSkiez', true) + " (Owner, Sysadmin)<br />" +
-                 			"- " + EM.nameColor('HurriKaine', true) + " (Admin, Lead Policy)<br />" +
-					"<br />" +
-					"<u>Staff Contributions:</u><br />" +
-					"- " + EM.nameColor('Blooded Kitten', true) + " (Admin, Management)<br />" +
-					"- " + EM.nameColor('Fleur Fee', true) + " (Leader, Management, Server CSS)<br />" +
-					"<br />" +
-					"<u>Special Thanks:</u><br />" +
-					"- Current staff team<br />" +
-					"- Our regular users<br />");
+		let popup = "|html|" + "<font size=5 color=#0066ff><u><b>Meadow Credits</b></u></font><br />" +
+			"<br />" +
+			"<u><b>Server Maintainers:</u></b><br />" +
+			"- " + EM.nameColor('DeltaSkiez', true) + " (Owner, Sysadmin, Development)<br />" +
+			"- " + EM.nameColor('Nobunny Usagi', true) + " (Admin, Server CSS, Development)<br />" +
+			"<br />" +
+			"<u><b>Major Contributors:</b></u><br />" +
+			"- " + EM.nameColor('HurriKaine', true) + " (Admin, Lead Policy)<br />" +
+			"- " + EM.nameColor('Blooded Kitten', true) + " (Admin, Management)<br />" +
+			"<br />" +
+			"<u><b>Special Thanks:</b></u><br />" +
+			"- Our Staff Members<br />" +
+			"- Our Regular Users<br />";
+		user.popup(popup);
 	},
-			'!tell': true,
-		tell: function (target, room, user, connection, cmd) {
+	 
+	'!tell': true,
+	 tell: function (target, room, user, connection, cmd) {
 		if (!target) return this.parse('/help tell');
 		if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
 		if (Users.ShadowBan.checkBanned(user)) return;
