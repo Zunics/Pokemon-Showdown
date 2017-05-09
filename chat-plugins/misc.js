@@ -1,5 +1,5 @@
 /**
-Ember Plugins
+Meadow Plugins
  */
 EM.nameColor = function (name, bold) {
         return (bold ? "<b>" : "") + "<font color=" + EM.Color(name) + ">" + (Users(name) && Users(name).connected && Users.getExact(name) ? Chat.escapeHTML(Users.getExact(name).name) : Chat.escapeHTML(name)) + "</font>" + (bold ? "</b>" : "");
@@ -117,7 +117,7 @@ const messages = [
 	    
 		credit: 'credits',
 	credits: function (target, room, user) {
-		this.popupReply("|html|" + "<font size=5>Ember Server Credits</font><br />" +
+		this.popupReply("|html|" + "<font size=5>Meadow Server Credits</font><br />" +
 					"<u>Major Contributors:</u><br />" +
 					"- " + EM.nameColor('DeltaSkiez', true) + " (Owner, Sysadmin)<br />" +
                  			"- " + EM.nameColor('HurriKaine', true) + " (Admin, Lead Policy)<br />" +
@@ -237,7 +237,7 @@ staff: 'authlist',
 				}
 			}
 			connection.popup('|html|' +
-				'<h3>Ember Server Authority</h3>' +
+				'<h3>Meadow Server Authority</h3>' +
 				'<b><u>~Administrators' +  ' (' + staff['admins'].length + ')</u></b>:<br />' + staff['admins'].join(', ') +
 				'<br /><b><u>&Leaders' +  ' (' + staff['leaders'].length + ')</u></b>:<br />' + staff['leaders'].join(', ') +
 				'<br /><b><u>*Bots (' + staff['bots'].length + ')</u></b>:<br />' + staff['bots'].join(', ') +
@@ -472,4 +472,4 @@ staff: 'authlist',
 		if (!user.can('roomowner')) return this.sendReplyBox(header + official.join(' ') + nonOfficial.join(' '));
 		this.sendReplyBox(header + official.join(' ') + nonOfficial.join(' ') + privateRoom.join(' ') + (groupChats.length > 1 ? groupChats.join(' ') : '') + (battleRooms.length > 1 ? battleRooms.join(' ') : ''));
 	},
-        };
+};
