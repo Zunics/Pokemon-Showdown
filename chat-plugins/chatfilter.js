@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 
-let adWhitelist = (Config.adWhitelist ? Config.adWhitelist : ['ember.psim.us']);
+let adWhitelist = (Config.adWhitelist ? Config.adWhitelist : ['meadow.psim.us']);
 let bannedMessages = (Config.bannedMessages ? Config.bannedMessages : []);
 let adRegex = new RegExp("(play.pokemonshowdown.com\\/~~)(?!(" + adWhitelist.join('|') + "))", "g");
 
