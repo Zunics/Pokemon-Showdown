@@ -1,9 +1,9 @@
 'use strict';
 
 exports.commands = {
-serverrules: 'emberrules',
-	emberrules: function (target, room, user) {
-		this.popupReply("|html|" + "<font size=4><b>Ember Server Rules:</b></font><br />" +
+serverrules: 'meadowrules',
+	meadowrules: function (target, room, user) {
+		this.popupReply("|html|" + "<font size=4><b>Meadow Server Rules:</b></font><br />" +
 					"<br />" +
 					"<b>1.</b> No sex. Don't discuss anything sexually explicit, not even in private messages, not even if you're both adults.<br />" +
 					"<br />" +
@@ -27,7 +27,7 @@ serverrules: 'emberrules',
 	'!discord': true,
 	    discord: function (target, room, user) {
 		        if (!this.runBroadcast()) return;
-		        this.sendReplyBox('Join our server discord by clicking <a href="https://discord.gg/pBxqYyZ">here</a>.');
+		        this.sendReplyBox('Join our server discord by clicking <a href="TBA">here</a>.');
 	},
 	
 	fleur : 'fleur',
