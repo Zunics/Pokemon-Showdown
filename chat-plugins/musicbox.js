@@ -4,7 +4,6 @@
 const fs = require('fs');
 const http = require('http');
 
-const FILE = 'config/musicbox.json';
 try {
 	EM.musicboxes = JSON.parse(fs.readFileSync(FILE));
 } catch (err) {
@@ -17,7 +16,7 @@ EM.createMusicBox = function (user) {
 	if (typeof musicboxes[user.userid] === 'object') return;
 	let box = musicboxes[user.userid] = {};
 	box.songs = [];
-	fs.writeFileSync(FILE, JSON.stringify(musicboxes, null, 1));
+	fs.writeFileSync(DATA_DIR + 'musicbox.json', JSON.stringify(musicboxes, null, 1));
 	return true;
 };
 
@@ -86,7 +85,7 @@ exports.commands = {
 
 					box.songs.push(song);
 					this.sendReply('|html|The song "<b>' + song.title + '</b>" has been successfully added to your music box.');
-					fs.writeFileSync(FILE, JSON.stringify(musicboxes, null, 1));
+					fs.writeFileSync(DATA_DIR + 'musicbox.json', JSON.stringify(musicboxes, null, 1));
 				}.bind(this)).catch(function (err) {
 					this.errorReply(err);
 				}.bind(this));
@@ -105,7 +104,7 @@ exports.commands = {
 					if (target > boxx.songs.length) return this.errorReply('You can\'t delete song number ' + target + ', since that\'s more than the number of songs you have (' + boxx.songs.length + ').');
 					match = boxx.songs[target - 1];
 					boxx.songs.splice(target - 1, 1);
-					fs.writeFileSync(FILE, JSON.stringify(musicboxes, null, 1));
+					fs.writeFileSync(DATA_DIR + 'musicbox.json', JSON.stringify(musicboxes, null, 1));
 					return this.sendReply('|html|The song "<b>' + match.title + '</b>" has been successfully removed from your music box.');
 				}
 				for (let i = 0; i < boxx.songs.length; i++) {
@@ -115,7 +114,7 @@ exports.commands = {
 					}
 				}
 				if (!match) return this.sendReply('|html|The song "<b>' + target + '</b>" isn\'t there in your music box...');
-				fs.writeFileSync(FILE, JSON.stringify(musicboxes, null, 1));
+				fs.writeFileSync(DATA_DIR + 'musicbox.json', JSON.stringify(musicboxes, null, 1));
 				this.sendReply('|html|The song "<b>' + match.title + '</b>" has been successfully removed from your music box.');
 				break;
 
@@ -131,7 +130,7 @@ exports.commands = {
 				} else {
 					box2.css = Chat.escapeHTML(target.replace(/^["']/, '').replace(/["']$/, ''));
 				}
-				fs.writeFileSync(FILE, JSON.stringify(musicboxes, null, 1));
+				fs.writeFileSync(DATA_DIR + 'musicbox.json', JSON.stringify(musicboxes, null, 1));
 				this.parse('/musicbox');
 				this.sendReply('Your music box\'s button CSS has been updated.');
 				break;
@@ -144,7 +143,7 @@ exports.commands = {
 				}
 				delete user.confirm;
 				musicboxes[user.userid].songs = [];
-				fs.writeFileSync(FILE, JSON.stringify(musicboxes, null, 1));
+				fs.writeFileSync(DATA_DIR + 'musicbox.json', JSON.stringify(musicboxes, null, 1));
 				this.sendReply("You have successfully removed all songs in your music box.");
 				break;
 
@@ -155,7 +154,7 @@ exports.commands = {
 				if (!box3) return this.sendReply(targetUser + " doesn't have a music box...");
 
 				delete musicboxes[toId(targetUser)];
-				fs.writeFileSync(FILE, JSON.stringify(musicboxes, null, 1));
+				fs.writeFileSync(DATA_DIR + 'musicbox.json', JSON.stringify(musicboxes, null, 1));
 				this.sendReply("You have successfully deleted " + targetUser + "'s music box.");
 				break;
 			}
