@@ -28,7 +28,7 @@ function updateIcons() {
 	let file = fs.readFileSync(DATA_DIR + 'custom.css', 'utf8').split('\n');
 	if (~file.indexOf('/* ICONS START */')) file.splice(file.indexOf('/* ICONS START */'), (file.indexOf('/* ICONS END */') - file.indexOf('/* ICONS START */')) + 1);
 	fs.writeFileSync(DATA_DIR + 'custom.css', file.join('\n') + newCss);
-	SG.reloadCSS();
+	EM.reloadCSS();
 }
 
 function generateCSS(name, icon) {
@@ -57,7 +57,7 @@ exports.commands = {
 			if (target.length !== 2) return this.parse('/help icon');
 			if (toId(target[0]).length > 19) return this.errorReply("Usernames are not this long...");
 			if (icons[toId(target[0])]) return this.errorReply("This user already has a custom userlist icon.  Do /icon delete [user] and then set their new icon.");
-			this.sendReply("|raw|You have given " + em.nameColor(target[0], true) + " an icon.");
+			this.sendReply("|raw|You have given " + EM.nameColor(target[0], true) + " an icon.");
 			Rooms('staff').add('|raw|' + EM.nameColor((target[0])) + ' has received an icon from ' + EM.nameColor(user.name), true).update();
 			this.privateModCommand("|raw|(" + target[0] + " has recieved icon: <img src='" + target[1] + "' width='32' height='32'> from " + user.name + ".)");
 			if (Users(target[0]) && Users(target[0]).connected) Users(target[0]).popup("|html|" + EM.nameColor(user.name, true) + " has set your userlist icon to: <img src='" + target[1] + "' width='32' height='32'><br><center>Refresh, If you don't see it.</center>");
