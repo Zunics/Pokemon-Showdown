@@ -171,11 +171,11 @@ function handleBoughtItem(item, user, cost) {
 		this.sendReply('You can now set your team!');
 	} else {
 		let msg = '**' + user.name + " has bought " + item + ".**";
-		Rooms.rooms.get("staff").add('|c|~Ember Server|' + msg);
+		Rooms.rooms.get("staff").add('|c|~Meadow Server|' + msg);
 		Rooms.rooms.get("staff").update();
 		Users.users.forEach(function (user) {
 			if (user.group === '~' || user.group === '&' || user.group === '@') {
-				user.send('|pm|~Ember Server|' + user.getIdentity() + '|' + msg);
+				user.send('|pm|~Meadow Server|' + user.getIdentity() + '|' + msg);
 			}
 		});
 	}
