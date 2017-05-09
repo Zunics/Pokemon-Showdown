@@ -1408,7 +1408,7 @@ class Battle extends Dex.ModdedDex {
 		if (this.rated) {
 			this.add('rated');
 		}
-		this.add('seed', Battle.logReplay.bind(this, this.prngSeed.join(',')));
+		this.add('seed', side => Battle.logReplay(this.prngSeed.join(','), side));
 
 		if (format.onBegin) {
 			format.onBegin.call(this);
