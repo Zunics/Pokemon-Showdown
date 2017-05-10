@@ -47,3 +47,14 @@ loadRegdateCache();
 function saveRegdateCache() {
 	fs.writeFileSync('config/regdate.json', JSON.stringify(regdateCache));
 }
+
+EM.reloadCSS = function () {
+	const cssPath = 'meadow'; // This should be the server id if Config.serverid doesn't exist. Ex: 'serverid'
+	let options = {
+		host: 'play.pokemonshowdown.com',
+		port: 80,
+		path: '/customcss.php?server=' + (Config.serverid || cssPath),
+		method: 'GET',
+	};
+	http.get(options);
+};
