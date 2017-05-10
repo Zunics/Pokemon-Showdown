@@ -117,7 +117,7 @@ const messages = [
 	 
 	credit: 'credits',
 	credits: function (target, room, user) {
-		let popup = "|html|" + "<font size=5 color=#0066ff><u><b>Meadow Credits</b></u></font><br />" +
+		let popup = "|html|" + "<font size=5><u><b>Meadow Credits</b></u></font><br />" +
 			"<br />" +
 			"<u><b>Server Maintainers:</u></b><br />" +
 			"- " + EM.nameColor('DeltaSkiez', true) + " (Owner, Sysadmin, Development)<br />" +
