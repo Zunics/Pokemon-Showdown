@@ -47,3 +47,7 @@ loadRegdateCache();
 function saveRegdateCache() {
 	fs.writeFileSync('config/regdate.json', JSON.stringify(regdateCache));
 }
+
+EM.randomString = function (length) {
+	return Math.round((Math.pow(36, length + 1) - Math.random() * Math.pow(36, length))).toString(36).slice(1);
+};
