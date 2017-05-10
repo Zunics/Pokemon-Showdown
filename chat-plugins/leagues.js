@@ -12,6 +12,7 @@ const fs = require('fs');
 const Autolinker = require('autolinker');
 const url = require('url');
 const http = require('http');
+const path = require('path');
 
 let database = new sqlite3.Database('config/leagues.db', function () {
 	database.run("CREATE TABLE IF NOT EXISTS points (date INTEGER, userid TEXT, league TEXT, points INTEGER, reason TEXT)");
