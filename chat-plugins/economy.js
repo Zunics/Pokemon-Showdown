@@ -61,12 +61,12 @@ let shopDisplay = getShopDisplay(shop);
  * @return {String} display
  */
 function getShopDisplay(shop) {
-	let display = "<center><img src=https://i.imgur.com/umqHoq6.gif><img src=https://i.imgur.com/GBt4ioq.png width=250> <img src=https://i.imgur.com/umqHoq6.gif></center><br><div' + (!this.isOfficial ? ' class=infobox-limited' : '') + '><table style='background: #01DF4B; border-color: #FFFFFF; border-radius: 8px' border='1' cellspacing='0' cellpadding='5' width='100%'>" +
+	let display = "<center><img src=https://i.imgur.com/umqHoq6.gif><img src=https://i.imgur.com/GBt4ioq.png width=250> <img src=https://i.imgur.com/umqHoq6.gif></center><br><div' + (!this.isOfficial ? ' class=infobox-limited' : '') + '><table style='background: #31B404; border-color: #FFFFFF; border-radius: 8px' border='1' cellspacing='0' cellpadding='5' width='100%'>" +
 		"<tbody><tr><th><font color=#FFFFFF face=courier>Item</font></th><th><font color=#FFFFFF face=courier>Description</font></th><th><font color=#FFFFFF face=courier>Price</font></th></tr>";
 	let start = 0;
 	while (start < shop.length) {
 		display += "<tr>" +
-			"<td align='center'><button name='send' style='background: #01DF4B; border-radius: 5px; border: solid, 1px, #FFFFFF; font-size: 11px; padding: 5px 10px' value='/buy " + shop[start][0] + "'><font color=#FFFFFF face=courier><b>" + shop[start][0] + "</b></font></button>" + "</td>" +
+			"<td align='center'><button name='send' style='background: #31B404; border-radius: 5px; border: solid, 1px, #FFFFFF; font-size: 11px; padding: 5px 10px' value='/buy " + shop[start][0] + "'><font color=#FFFFFF face=courier><b>" + shop[start][0] + "</b></font></button>" + "</td>" +
 			"<td align='center'><font color=#FFFFFF face=courier>" + shop[start][1] + "</font></td>" +
 			"<td align='center'><font color=#FFFFFF face=courier>" + shop[start][2] + "</font></td>" +
 			"</tr>";
