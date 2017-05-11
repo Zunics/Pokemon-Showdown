@@ -261,4 +261,5 @@ exports.commands = {
 		return this.sendReply("You are now showing your authority!");
 	},
 	showhelp: ["/show - Displays user's global rank. Requires: & ~"],
+
 };
