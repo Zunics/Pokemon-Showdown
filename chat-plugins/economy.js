@@ -61,14 +61,14 @@ let shopDisplay = getShopDisplay(shop);
  * @return {String} display
  */
 function getShopDisplay(shop) {
-	let display = "<center><img src=http://i.imgur.com/1vXo5UW.png><img src=http://i.imgur.com/rYmNctD.png width=250> <img src=http://i.imgur.com/1vXo5UW.png></center><br><div' + (!this.isOfficial ? ' class=infobox-limited' : '') + '><table style='background: #000; border-color: #01D0DF; border-radius: 8px' border='1' cellspacing='0' cellpadding='5' width='100%'>" +
-		"<tbody><tr><th><font color=#01D0DF face=courier>Item</font></th><th><font color=#01D0DF face=courier>Description</font></th><th><font color=#01D0DF face=courier>Price</font></th></tr>";
+	let display = "<center><img src=http://i.imgur.com/1vXo5UW.png><img src=http://i.imgur.com/rYmNctD.png width=250> <img src=http://i.imgur.com/1vXo5UW.png></center><br><div' + (!this.isOfficial ? ' class=infobox-limited' : '') + '><table style='background: #000; border-color: #01DF4B; border-radius: 8px' border='1' cellspacing='0' cellpadding='5' width='100%'>" +
+		"<tbody><tr><th><font color=#01DF4B face=courier>Item</font></th><th><font color=#01DF4B face=courier>Description</font></th><th><font color=#01DF4B face=courier>Price</font></th></tr>";
 	let start = 0;
 	while (start < shop.length) {
 		display += "<tr>" +
-			"<td align='center'><button name='send' style='background: #000; border-radius: 5px; border: solid, 1px, #01D0DF; font-size: 11px; padding: 5px 10px' value='/buy " + shop[start][0] + "'><font color=#01D0DF face=courier><b>" + shop[start][0] + "</b></font></button>" + "</td>" +
-			"<td align='center'><font color=#01D0DF face=courier>" + shop[start][1] + "</font></td>" +
-			"<td align='center'><font color=#01D0DF face=courier>" + shop[start][2] + "</font></td>" +
+			"<td align='center'><button name='send' style='background: #000; border-radius: 5px; border: solid, 1px, #01DF4B; font-size: 11px; padding: 5px 10px' value='/buy " + shop[start][0] + "'><font color=#01DF4B face=courier><b>" + shop[start][0] + "</b></font></button>" + "</td>" +
+			"<td align='center'><font color=#01DF4B face=courier>" + shop[start][1] + "</font></td>" +
+			"<td align='center'><font color=#01DF4B face=courier>" + shop[start][2] + "</font></td>" +
 			"</tr>";
 		start++;
 	}
