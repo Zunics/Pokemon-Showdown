@@ -61,7 +61,7 @@ let shopDisplay = getShopDisplay(shop);
  * @return {String} display
  */
 function getShopDisplay(shop) {
-	let display = "<center><img src=https://i.imgur.com/umqHoq6.gif><img src=http://i.imgur.com/rYmNctD.png width=250> <img src=https://i.imgur.com/umqHoq6.gif></center><br><div' + (!this.isOfficial ? ' class=infobox-limited' : '') + '><table style='background: #000; border-color: #01DF4B; border-radius: 8px' border='1' cellspacing='0' cellpadding='5' width='100%'>" +
+	let display = "<center><img src=https://i.imgur.com/umqHoq6.gif><img src=https://i.imgur.com/GBt4ioq.png width=250> <img src=https://i.imgur.com/umqHoq6.gif></center><br><div' + (!this.isOfficial ? ' class=infobox-limited' : '') + '><table style='background: #000; border-color: #01DF4B; border-radius: 8px' border='1' cellspacing='0' cellpadding='5' width='100%'>" +
 		"<tbody><tr><th><font color=#01DF4B face=courier>Item</font></th><th><font color=#01DF4B face=courier>Description</font></th><th><font color=#01DF4B face=courier>Price</font></th></tr>";
 	let start = 0;
 	while (start < shop.length) {
