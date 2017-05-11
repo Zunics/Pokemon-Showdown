@@ -228,10 +228,10 @@ exports.commands = {
 		this.logModCommand(user.name + " globally declared (chat level) " + target);
 	},
 	chatdeclarehelp: ["/cdeclare [message] - Anonymously announces a message to all chatrooms on the server. Requires: ~"],
-	
+
 	hide: 'hideauth',
 	hideauth: function (target, room, user) {
-		if (!user.can('lock')) return this.sendReply("/hideauth - Access Denied.");
+		if (!this.can('lock')) return false;
 		let tar = ' ';
 		if (target) {
 			target = target.trim();
@@ -239,26 +239,26 @@ exports.commands = {
 				if (Config.groupsranking.indexOf(target) <= Config.groupsranking.indexOf(user.group)) {
 					tar = target;
 				} else {
-					this.sendReply('The group symbol you have tried to use is of a higher authority than you have access to. Defaulting to \' \' instead.');
+					this.sendReply('The group symbol you have tried to use is of a higher authority than you have access to. Defaulting to \'' + tar + 'instead.');
 				}
 			} else {
-				this.sendReply('You have tried to use an invalid character as your auth symbol. Defaulting to \' \' instead.');
+				this.sendReply('You are now hiding your auth symbol as \'' + tar + '\'.');
 			}
 		}
-		user.customSymbol = tar;
+		user.getIdentity = function (roomid) {
+			return tar + this.name;
+		};
 		user.updateIdentity();
-		this.sendReply('You are now hiding your auth symbol as \'' + tar + '\'.');
+		return this.sendReply("You are now hiding your auth as ' " + tar + "'.");
 	},
 	hidehelp: ["/hide - Hides user's global rank. Requires: & ~"],
 
 	show: 'showauth',
 	showauth: function (target, room, user) {
-		if (!user.can('lock')) return this.sendReply("/showauth - Access Denied.");
-		user.customSymbol = false;
+		if (!this.can('lock')) return false;
+		delete user.getIdentity;
 		user.updateIdentity();
-		this.sendReply("You have now revealed your auth symbol.");
-		this.sendReply("Your symbol has been reset.");
+		return this.sendReply("You are now showing your authority!");
 	},
 	showhelp: ["/show - Displays user's global rank. Requires: & ~"],
-
 };
