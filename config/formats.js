@@ -670,11 +670,11 @@ exports.Formats = [
 		ruleset: ['Pokemon', 'HP Percentage Mod', 'Cancel Mod'],
 	},
 	
-	// Ember Metagames
+	// Meadow Metagames
 	///////////////////////////////////////////////////////////////////
 
 	{
-		section: 'Ember Metagames',
+		section: 'Meadow Metagames',
 		column: 3,
 	},
 	{
@@ -743,7 +743,7 @@ exports.Formats = [
 		banlist: ['Uber', 'Soul Dew', 'Toxapex']
 	},
 	{
-		name: "[Gen 7] Ember Monotype",
+		name: "[Gen 7] Meadow Monotype",
 		desc: [
 			"All the Pok&eacute;mon on a team must share a type.",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3587204/\">Monotype</a>",
