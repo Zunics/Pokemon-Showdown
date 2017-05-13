@@ -1,9 +1,5 @@
 'use strict';
-/********************
- * Time Commands
- * This file contains commands that keep track of users activity.
- ********************/
-let color = require('../config/color');
+
 let moment = require('moment');
 let request = require('request');
 let rankLadder = require('../rank-ladder');
@@ -43,9 +39,9 @@ exports.commands = {
 		if (isConnected && !Ontime[userid]) Ontime[userid] = Date.now();
 
 		if (isConnected) {
-			this.sendReplyBox('<b><font color="' + color(userid) + '">' + userid + '</font></b>\'s total ontime is <b>' + displayTime(convertTime(totalOntime)) + '</b>.' + ' Current ontime: <b>' + displayTime(convertTime((currentOntime))) + '</b>.');
+			this.sendReplyBox(EM.nameColor(userid) + '<b>\'s total ontime is <b>' + displayTime(convertTime(totalOntime)) + '</b>.' + ' Current ontime: <b>' + displayTime(convertTime((currentOntime))) + '</b>.');
 		} else {
-			this.sendReplyBox('<b><font color="' + color(userid) + '">' + userid + '</font></b>\'s total ontime is <b>' + displayTime(convertTime(totalOntime)) + '</b>.' + ' Currently not online.');
+			this.sendReplyBox(EM.nameColor(userid) + '</b>\'s total ontime is <b>' + displayTime(convertTime(totalOntime)) + '</b>.' + ' Currently not online.');
 		}
 	},
 	nolifeladder: 'ontimeladder',
