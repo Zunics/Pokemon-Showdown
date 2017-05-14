@@ -322,7 +322,7 @@ exports.commands = {
 			if (!Dex.data.Formats[key].mod) continue;
 			if (!Dex.data.Formats[key].searchShow) continue;
 			if (toId(target) !== 'all') {
-				let commonMods = ['gen7', 'embermono', 'ssb', 'pmd', 'perseverance'];
+				let commonMods = ['gen7', 'meadowmono', 'ssb', 'pmd', 'perseverance'];
 				if (commonMods.indexOf(Dex.data.Formats[key].mod) === -1) continue;
 			}
 			options.push(Dex.data.Formats[key].name);
