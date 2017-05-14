@@ -44,7 +44,7 @@ exports.commands = {
           if (!this.can('ban')) return false;
           if (!this.runBroadcast()) return;
             return this.sendReplyBox(
-                '<em><small>(All commands require <strong>~</strong> or <strong>&</strong>)</small></em><br />' +
+                '<em><small>(All commands require <strong>~</strong>, <strong>&</strong>, or <strong>@</strong>)</small></em><br />' +
                 '<li>/customavatar set <em>User</em>, <em>URL</em> - Sets a user\'s custom avatar to the specified image URL.' +
 			    '<li>/customavatar delete <em>User</em> - Deletes a user\'s custom avatar.' +
 			    '<li>/customavatar move <em>User 1</em>, <em>User 2</em> - Moves User 1\'s custom avatar to User 2.'
