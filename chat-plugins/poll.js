@@ -313,6 +313,31 @@ exports.commands = {
 			this.parse('/help poll');
 		},
 	},
+	tpoll: 'tierpoll',
+	tierpoll: function (target, room, user, connection, cmd, message) {
+		if (!this.can('minigame', null, room)) return false;
+		if (room.poll) return this.errorReply("There is already a poll in progress in this room.");
+		let options = [];
+		for (let key in Dex.data.Formats) {
+			if (!Dex.data.Formats[key].mod) continue;
+			if (!Dex.data.Formats[key].searchShow) continue;
+			if (toId(target) !== 'all') {
+				let commonMods = ['gen7', 'embermono', 'ssb', 'pmd', 'perseverance'];
+				if (commonMods.indexOf(Dex.data.Formats[key].mod) === -1) continue;
+			}
+			options.push(Dex.data.Formats[key].name);
+		}
+		room.poll = new Poll(room, {
+			source: 'What should the next tournament tier be?',
+			supportHTML: false,
+			username: user.name,
+		}, options);
+		room.poll.display();
+		this.logEntry("" + user.name + " used " + message);
+		return this.privateModCommand("(A tier poll was started by " + user.name + ".)");
+	},
+	tierpollhelp: ["/tierpoll - (all) Creates a poll with all the common formats as options. Requires: % @ * # & ~"],
+
 	pollhelp: [
 		"/poll allows rooms to run their own polls. These polls are limited to one poll at a time per room.",
 		"Accepts the following commands:",
