@@ -60,9 +60,9 @@ exports.commands = {
 	'! ':true,
 	'': function (target, room, user) {
 			if (!this.runBroadcast()) return;
-            if (!this.can('forcewin')) return false;
+            if (!this.can('ban')) return false;
 			this.sendReplyBox(
-				'<small><em>(Only Administrators(~) and Leaders(&) can use these commands)</em></small><br />' +
+				'<small><em>(Only Administrators(~), Leaders(&) and Moderators(@) can use these commands)</em></small><br />' +
 				'/customicon set <em>‹user›</em>, <em>‹img›</em><br />' +
 				'/customicon delete <em>‹user›</em><br />' +
 				'/customicon move <em>‹user1›</em>, <em>‹user2›</em>, <em>‹img›</em><br />' +
@@ -71,10 +71,10 @@ exports.commands = {
 				);
 		},
 		   move: function(target, room, user, connection, cmd) {
-            if (!this.can('forcewin')) return false;
-    		if (!target || !target.trim()) return this.sendReply('/custom color move User 1, User 2, hex.');
+            if (!this.can('ban')) return false;
+    		if (!target || !target.trim()) return this.sendReply('/custom icon move User 1, User 2, hex.');
     		target = target.split(',');
-    		if (target.length < 3) return this.sendReply('/custom color move User 1, User 2, hex.');
+    		if (target.length < 3) return this.sendReply('/custom icon move User 1, User 2, hex.');
             
             let user1 = (Users.getExact(target[0]) ? Users.getExact(target[0]).name : target[0]);
     		let user2 = (Users.getExact(target[1]) ? Users.getExact(target[1]).name : target[1]);
@@ -87,7 +87,7 @@ exports.commands = {
 		   },
 		
 		set: function (target, room, user, connection) {
-			if (!this.can('forcewin')) return false;
+			if (!this.can('ban')) return false;
 			target = target.split(',');
 			
 			if (!target[1]) return this.parse('/icon');
@@ -103,7 +103,7 @@ exports.commands = {
 		}, 
 		
 		delete: function (target, room, user) {
-			if (!this.can('forcewin')) return false;
+			if (!this.can('ban')) return false;
 			
 			if (!icons[toId(target)]) return this.errorReply('The user: ' + target + ' does not have a customicon set.');
 			delete icons[toId(target)];
