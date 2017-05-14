@@ -73,9 +73,9 @@ exports.commands = {
 	},
     	customcolor: {
 		 '': function (target, room, user) {
-      if (!this.can('forcewin')) return false;
+      if (!this.can('ban')) return false;
 			  this.sendReplyBox(
-				  '<small><em>(Only Administrators(~) and Leaders(&) can use these commands)</em></small><br />' +
+				  '<small><em>(Only Administrators(~), Leaders(&) and Moderators(@) can use these commands)</em></small><br />' +
 				  '/customcolor set <em>‹user›</em>, <em>‹hex›</em><br />' +
 				  '/customcolor delete <em>‹user›</em><br />' +
 				  '/customcolor preview <em>‹user›</em>, <em>‹hex›</em><br />' +
@@ -85,7 +85,7 @@ exports.commands = {
 				);
 		},
 				   move: function(target, room, user, connection, cmd) {
-            if (!this.can('forcewin')) return false;
+            if (!this.can('ban')) return false;
     		if (!target || !target.trim()) return this.sendReply('/custom color move User 1, User 2, hex.');
     		target = target.split(',');
     		if (target.length < 3) return this.sendReply('/custom color move User 1, User 2, hex.');
@@ -100,7 +100,7 @@ exports.commands = {
        updateColor();
 				   },
 		set: function (target, room, user) {
-		        if (!this.can('forcewin')) return false;
+		        if (!this.can('ban')) return false;
                         target = target.split(',');
                         
                         this.sendReply("|raw|The color of <b><font color=" + target[1] + ">" + Chat.escapeHTML(target[0]) + "</font></b> has been successfully established.");
@@ -112,7 +112,7 @@ exports.commands = {
 		},
 		
 		delete: function (target, room, user) {
-		        if (!this.can('forcewin')) return false;
+		        if (!this.can('ban')) return false;
 		        if (!customColors[toId(target)]) return this.errorReply('The user:  ' + target + ' did not have a customcolor set.');
                         delete customColors[toId(target)];
                         updateColor();
@@ -130,7 +130,7 @@ exports.commands = {
                         this.sendReply('|raw|<b><font size="2" color="' +  target[1] + '">' + Chat.escapeHTML(target[0]) + ':</font></b> Look what my nick looks like with the color <b><font size="2" color="' +  target[1] + '">' + target[1] + '</font></b>');
 		},
     list: function (target, room, user) {
-		if (!this.can('forcewin')) return false;
+		if (!this.can('ban')) return false;
 		let colores = fs.readFileSync( DATA_DIR + 'customcolors.json', 'utf8').split('\n').splice(-100).join('\n');
 		user.send('|popup||html|' + '<center>List of users with a customcolor and their colors</center><br>' + colores);
 	},
