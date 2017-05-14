@@ -39,6 +39,12 @@ exports.BattleAliases = {
 	"lastwill": "[Gen 7] Last Will",
 	"crossevolution": "[Gen 7] Cross Evolution",
 
+	//Meadow Aliases
+	"ssb": "[Gen 7] Super Staff Bros",
+	"pmd": "[Gen 7] Pokemon Mystery Dungeon",
+	"meadowmono": "[Gen 7] Meadow Monotype",
+	"perseverance": "[Gen 7] Perseverance",
+
 	// mega evos
 	"maero": "Aerodactyl-Mega",
 	"megaaero": "Aerodactyl-Mega",
