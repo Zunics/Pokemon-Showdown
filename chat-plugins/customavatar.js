@@ -41,7 +41,7 @@ exports.commands = {
         
         help: '',
         '': function (target, room, user) {
-          if (!this.can('forcewin')) return false;
+          if (!this.can('ban')) return false;
           if (!this.runBroadcast()) return;
             return this.sendReplyBox(
                 '<em><small>(All commands require <strong>~</strong> or <strong>&</strong>)</small></em><br />' +
@@ -52,7 +52,7 @@ exports.commands = {
         },
         
         set: function(target, room, user, connection, cmd) {
-            if (!this.can('forcewin')) return false;
+            if (!this.can('ban')) return false;
             if (!target) return this.sendReply('/customavatar set User, URL');
 		    if (target.length < 2)  return this.sendReply('/customavatar set User, URL');
 		    target = target.split(',');
@@ -98,7 +98,7 @@ exports.commands = {
         },
         
         delete: function(target, room, user, connection, cmd) {
-            if (!this.can('forcewin')) return false;
+            if (!this.can('ban')) return false;
             if (!target || !target.trim()) return this.sendReply('/customavatar delete User');
 		    target = Users.getExact(target) ? Users.getExact(target).name : target;
 		    
@@ -115,7 +115,7 @@ exports.commands = {
         },
         
         move: function(target, room, user, connection, cmd) {
-            if (!this.can('forcewin')) return false;
+            if (!this.can('ban')) return false;
     		if (!target || !target.trim()) return this.sendReply('/customavatar move User 1, User 2.');
     		target = target.split(',');
     		if (target.length < 2) return this.sendReply('/customavatar move User 1, User 2.');
