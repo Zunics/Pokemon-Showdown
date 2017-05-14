@@ -1234,6 +1234,30 @@ let commands = {
 			tournament.runAutoDisqualify(this);
 			this.logEntry(user.name + " used /tour runautodq");
 		},
+		remind: function (tournament, user) {
+			let users = tournament.generator.getAvailableMatches().toString().split(',');
+			let offlineUsers = [];
+			for (let u = 0; u < users.length; u++) {
+				let targetUser = Users.get(users[u]);
+				if (!targetUser) {
+					offlineUsers.push(users[u]);
+					continue;
+				} else if (!targetUser.connected) {
+					offlineUsers.push(targetUser.userid);
+					continue;
+				} else {
+					let pmName = '~Meadow Server';
+					let message = '|pm|' + pmName + '|' + user.getIdentity() + '|' + 'You have a tournament battle in the room "' + tournament.room.title + '". If you do not start soon you may be disqualified.';
+					targetUser.send(message);
+				}
+			}
+			if (tournament.isTournamentStarted) {
+				tournament.room.addRaw('<b>Players have been reminded of their tournament battles by ' + user.name + '.</b>');
+				if (offlineUsers.length > 0 && offlineUsers !== '') tournament.room.addRaw('<b>The following users are currently offline: ' + offlineUsers + '.</b>');
+			} else {
+				this.errorReply('The tournament hasen\'t started yet.');
+			}
+		},
 		scout: 'setscouting',
 		scouting: 'setscouting',
 		setscout: 'setscouting',
