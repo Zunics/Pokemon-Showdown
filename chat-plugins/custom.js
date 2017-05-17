@@ -1,7 +1,7 @@
 'use strict';
 
 exports.commands = {
-serverrules: 'meadowrules',
+	serverrules: 'meadowrules',
 	meadowrules: function (target, room, user) {
 		this.popupReply("|html|" + "<font size=4><b>Meadow Server Rules:</b></font><br />" +
 					"<br />" +
@@ -30,28 +30,24 @@ serverrules: 'meadowrules',
 		        this.sendReplyBox('Join our server discord by clicking <a href="TBA">here</a>.');
 	},
 
-	/*********************************************************
-	 * Fleur's Gifs
-	 *********************************************************/
-	
 	hmm: function(target, room, user) {
-	 	if (!this.canBroadcast()) return;
+	 	if (!this.runBroadcast()) return;
 	 	return this.sendReply('|raw|<center><img width="300" height="169" src="http://imgur.com/5pPDucQ"></center>');
 	},
 	kicks: function(target, room, user) {
-	 	if (!this.canBroadcast()) return;
+	 	if (!this.runBroadcast()) return;
 	 	return this.sendReply('|raw|<center><img width="300" height="169" src="http://imgur.com/rL3brvH"></center>');
 	},
 	nekochan: function(target, room, user) {
-	 	if (!this.canBroadcast()) return;
+	 	if (!this.runBroadcast()) return;
 	 	return this.sendReply('|raw|<center><img width="300" height="169" src="http://imgur.com/er6fBG0"></center>');
 	},
 	nono: function(target, room, user) {
-	 	if (!this.canBroadcast()) return;
+	 	if (!this.runBroadcast()) return;
 	 	return this.sendReply('|raw|<center><img width="300" height="169" src="http://imgur.com/NbAHKSD"></center>');
 	},
  	dafuck: function(target, room, user) {
-	 	if (!this.canBroadcast()) return;
+	 	if (!this.runBroadcast()) return;
 	 	return this.sendReply('|raw|<center><img width="300" height="169" src="http://imgur.com/cVhyNfL"></center>');
 	},
 
