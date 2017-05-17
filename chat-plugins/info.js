@@ -1276,9 +1276,9 @@ exports.commands = {
 		);
 	},
 	
-	'!embermono': true,
-	embermonotype: 'embermono',
-	embermono: function (target, room, user) {
+	'!meadowmono': true,
+	meadowmonotype: 'meadowmono',
+	meadowmono: function (target, room, user) {
 		if (!this.runBroadcast()) return;
 		this.sendReplyBox(
 			"A tier to enjoy monotype with your favorite Pok&eacute;mon!(special thanks to Fleur Fee)<br />" +
