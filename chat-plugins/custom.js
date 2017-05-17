@@ -48,7 +48,7 @@ exports.commands = {
 	},
  	dafuck: function(target, room, user) {
 	 	if (!this.runBroadcast()) return;
-	 	return this.sendReply('|raw|<center><img src="http://imgur.com/cVhyNfL" width="300" height="169"></center>');
+	 	return this.sendReply('|raw|<center><img src="https://i.imgur.com/cVhyNfL.gif" width="300" height="169"></center>');
 	},
 
 	fleur : 'fleur',
