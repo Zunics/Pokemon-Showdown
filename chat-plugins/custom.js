@@ -32,23 +32,23 @@ exports.commands = {
 
 	hmm: function(target, room, user) {
 	 	if (!this.runBroadcast()) return;
-	 	return this.sendReply('|raw|<center><img width="300" height="169" src="http://imgur.com/5pPDucQ"></center>');
+	 	return this.sendReply('|raw|<center><img src="http://imgur.com/5pPDucQ" width="300" height="169"></center>');
 	},
 	kicks: function(target, room, user) {
 	 	if (!this.runBroadcast()) return;
-	 	return this.sendReply('|raw|<center><img width="300" height="169" src="http://imgur.com/rL3brvH"></center>');
+	 	return this.sendReply('|raw|<center><img src="http://imgur.com/rL3brvH" width="300" height="169"></center>');
 	},
 	nekochan: function(target, room, user) {
 	 	if (!this.runBroadcast()) return;
-	 	return this.sendReply('|raw|<center><img width="300" height="169" src="http://imgur.com/er6fBG0"></center>');
+	 	return this.sendReply('|raw|<center><img src="http://imgur.com/er6fBG0" width="300" height="169"></center>');
 	},
 	nono: function(target, room, user) {
 	 	if (!this.runBroadcast()) return;
-	 	return this.sendReply('|raw|<center><img width="300" height="169" src="http://imgur.com/NbAHKSD"></center>');
+	 	return this.sendReply('|raw|<center><img src="http://imgur.com/NbAHKSD" width="300" height="169"></center>');
 	},
  	dafuck: function(target, room, user) {
 	 	if (!this.runBroadcast()) return;
-	 	return this.sendReply('|raw|<center><img width="300" height="169" src="http://imgur.com/cVhyNfL"></center>');
+	 	return this.sendReply('|raw|<center><img src="http://imgur.com/cVhyNfL" width="300" height="169"></center>');
 	},
 
 	fleur : 'fleur',
