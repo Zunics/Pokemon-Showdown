@@ -131,10 +131,10 @@ var TicTacToe = (function () {
 
 	TicTacToe.prototype.end = function (message) {
 		if (message) {
-			if (this.phase === 'waiting') this.players.forEach(function (user) {
-				user.send('|pm|' + this.p2.getIdentity() + '|' + this.p1.getIdentity() + '|/html <div class="message-error">' + message + '</div>');
-			});
-			else this.players.forEach(function (user) {
+			if (this.phase === 'waiting') {
+				message = '|pm|' + this.p2.getIdentity() + '|' + this.p1.getIdentity() + '|/error ' + message;
+			}
+			this.players.forEach(function (user) {
 				user.popup(message);
 			});
 		}
