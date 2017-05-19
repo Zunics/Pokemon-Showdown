@@ -86,7 +86,12 @@ exports.commands = {
 			if (!Db('badgeData').has(selectedBadge)) return this.errorReply("This badge does not exist, please check /badges list");
 			Db('badgeData').delete(selectedBadge);
 			let badgeUserObject = Db('userBadges').object();
-			Users.users.forEach(u => Db('userBadges').set(u, (badgeUserObject[u].filter(b => b !== selectedBadge))));
+			let badgedUsers = Db('userBadges').keys().map(curUser => ({userid: curUser, badges: Db('userBadges').get(curUser)}));
+			badgedUsers.forEach(curUser => {
+				let badges = curUser.badges.filter(b => b !== selectedBadge);
+				if (!badges.length) return Db('userBadges').delete(curUser.userid);
+				Db('userBadges').set(curUser.userid, badges);
+			});
 			this.sendReply("The badge with the name '" + selectedBadge + "' deleted.");
 			this.logModCommand(user.name + " removed the badge '" + selectedBadge + ".");
 			break;
