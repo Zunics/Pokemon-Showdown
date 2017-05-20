@@ -75,7 +75,7 @@ function nightclubify(message) {
 	let rank = '', rankIndex = (toId(message[0]) ? 0 : 1);
 	if (rankIndex) rank = message[0];
 	let user = message.substring(rankIndex, (~message.indexOf('|') ? message.indexOf('|') : message.length));
-	if (!toId(user)) return '|c|' + (~~(Date.now() / 1000)) + '|' + message;
+	if (!toId(user)) return '|c:|' + (~~(Date.now() / 1000)) + '|' + message;
 	message = (~message.indexOf('|') ? message.substring(message.indexOf('|') + 1) : '');
 	return '|raw|<div style = "font-size: 11pt; margin: -3px; padding: 1px; background: black; color: white; text-shadow: 0px 0px 10px, 0px 0px 10px, 0px 0px 10px;">' +
 		'<small style = "color: white">' + rank + '</small>' +
@@ -90,7 +90,7 @@ Rooms.Room.prototype.add = function (message) {
 		if (nightclubs[this.id]) {
 			message = nightclubify(message.substr(3));
 		} else {
-			message = '|c|' + (~~(Date.now() / 1000)) + '|' + message.substr(3);
+			message = '|c:|' + (~~(Date.now() / 1000)) + '|' + message.substr(3);
 		}
 	} else if (nightclubs[this.id]) {
 		let style = '|raw|<div style = "color: white; text-shadow: 0px 0px 6px, 0px 0px 6px; background: black; padding: 2px; margin: -3px,">';
