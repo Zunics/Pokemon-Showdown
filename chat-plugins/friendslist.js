@@ -21,13 +21,8 @@ function Friends(isOnline, user) {
 	this.username = Chat.escapeHTML(this.isOnline ? this.user.name : this.user);
 }
 
-function getName(user, color, bold) {
-	let name = (Users.getExact(user) && Users(user).connected ? Users.getExact(user).name : user);
+function getName(user, color) {
 	color = EM.nameColor(user);
-	let boldName = '<b>' + color + '</b>';
-	if (user && !color && !bold) return name;
-	if (user && color && !bold) return color;
-	if (user && color && bold) return boldName;
 }
 
 /**
