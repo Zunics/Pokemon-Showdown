@@ -21,25 +21,6 @@ function Friends(isOnline, user) {
 	this.username = Chat.escapeHTML(this.isOnline ? this.user.name : this.user);
 }
 
-function getName(user, color) {
-	color = EM.nameColor(user);
-}
-
-/**
- * Create an bold html tag element.
- *
- * Example:
- * createFont('Hello World!');
- * => '<b>Hello World!</b>'
- *
- * @param {String} color
- * @param {String} text
- * @return {String}
- */
-function bold(text) {
-	return '<b>' + text + '</b>';
-}
-
 /**
  * Create an font html tag element.
  *
@@ -51,12 +32,9 @@ function bold(text) {
  * @param {String} text
  * @return {String}
  */
-function font(color, text) {
-	return '<font color="' + getName + '">' + text + '</font>';
-}
 
 Friends.prototype.name = function () {
-	let userName = bold(font(getName(toId(this.username)), this.username));
+	let userName = (EM.nameColor(this.username, true));
 	return '<button style="border: none; background: none; padding: 0;" name="parseCommand" value="/user ' + this.username + '">' + userName + "</button>";
 };
 
