@@ -2,7 +2,6 @@
 
 'use strict';
 
-let color = require('../config/color');
 let BR = '<br>';
 let onlineFriendListOutput = '';
 let offlineFriendListOutput = '';
@@ -20,6 +19,15 @@ function Friends(isOnline, user) {
 	this.user = user || null;
 
 	this.username = Chat.escapeHTML(this.isOnline ? this.user.name : this.user);
+}
+
+function getName(user, color, bold) {
+	let name = (Users.getExact(user) && Users(user).connected ? Users.getExact(user).name : user);
+	color = EM.nameColor(user);
+	let boldName = '<b>' + color + '</b>';
+	if (user && !color && !bold) return name;
+	if (user && color && !bold) return color;
+	if (user && color && bold) return boldName;
 }
 
 /**
@@ -49,11 +57,11 @@ function bold(text) {
  * @return {String}
  */
 function font(color, text) {
-	return '<font color="' + color + '">' + text + '</font>';
+	return '<font color="' + getName + '">' + text + '</font>';
 }
 
 Friends.prototype.name = function () {
-	let userName = bold(font(color(toId(this.username)), this.username));
+	let userName = bold(font(getName(toId(this.username)), this.username));
 	return '<button style="border: none; background: none; padding: 0;" name="parseCommand" value="/user ' + this.username + '">' + userName + "</button>";
 };
 
