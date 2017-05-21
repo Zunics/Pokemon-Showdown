@@ -21,18 +21,6 @@ function Friends(isOnline, user) {
 	this.username = Chat.escapeHTML(this.isOnline ? this.user.name : this.user);
 }
 
-/**
- * Create an font html tag element.
- *
- * Example:
- * createFont('Hello World!', 'blue');
- * => '<font color="blue">Hello World!</font>'
- *
- * @param {String} color
- * @param {String} text
- * @return {String}
- */
-
 Friends.prototype.name = function () {
 	let userName = (EM.nameColor(this.username, true));
 	return '<button style="border: none; background: none; padding: 0;" name="parseCommand" value="/user ' + this.username + '">' + userName + "</button>";
