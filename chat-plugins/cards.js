@@ -70,7 +70,7 @@ function cacheRarity() {
 
 EM.tourCard = function (tourSize, userid) {
 	if (tourSize > 32) tourSize = 32;
-	let tourRarity = tourCardRarity[Math.floor(tourSize / 3)];
+	let tourRarity = tourCardRarity[Math.floor(tourSize / 4)];
 	let cacheValue = rareCache[cleanCard.indexOf(toId(tourRarity))];
 	if (!cacheValue || !cacheValue.length) return false;
 	let card = cacheValue[Math.round(Math.random() * (cacheValue.length - 1))];
