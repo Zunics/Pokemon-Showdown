@@ -230,7 +230,7 @@ function parseMessage(message, user) {
 
 		message = '<span class="' + div + '"><small>[' + timestamp + ']</small> ' + '<small>' + name.substr(0, 1) +
 		'</small>' + EM.nameColor(toId(name), true) + '<em>' +
-		SG.parseMessage(lineSplit.slice(4).join('|')) + '</em></span>';
+		EM.parseMessage(lineSplit.slice(4).join('|')) + '</em></span>';
 		break;
 	case 'uhtml':
 		message = '<span class="notice">' + lineSplit.slice(3).join('|').trim() + '</span>';
