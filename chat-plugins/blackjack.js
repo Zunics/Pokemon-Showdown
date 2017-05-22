@@ -23,7 +23,7 @@ class Blackjack {
 		this.players = {};
 		this.ips = [];
 		this.dealer = {cards: [], points: 0};
-		this.deck = Tools.shuffle(deck.slice(0));
+		this.deck = Dex.shuffle(deck.slice(0));
 		this.id = Math.floor(Math.random() * 100000000);
 		this.lastMessage = "";
 		this.curUser = "";
