@@ -40,7 +40,6 @@ exports.commands = {
 			if (!permissionCheck(user, rooms[u])) continue;
 			(rooms[u].includes('groupchat-') ? groupChats : roomList).push(rooms[u]);
 		}
-		if (roomList.length < 1) return this.errorReply("You don't have access to view the logs of any rooms.");
 
 		let output = "Choose a room to view the logs:";
 		output += generateTable(roomList, "/viewlogs month,");
