@@ -130,13 +130,13 @@ exports.commands = {
 				return user.send("|popup||wide||html|" + output);
 			}
 
-			data = targetRoom + "|" + date + "|" + fs.readFileSync('config/customcolors.json', 'utf8') + "\n" + data;
+			data = targetRoom + "|" + date + "|" + fs.readFileSync(DATA_DIR + 'custom.css', 'utf8') + "\n" + data;
 
 			fs.writeFile('static/logs/' + filename, data, err => {
 				if (err) return this.errorReply("/viewlogs - " + err);
 				this.sendReply(
-					"|raw|You can view the logs at <a href=\"http://goldservers.info:" + Config.port +
-					"/logs/logviewer.html?file=" + filename + "\">http://goldservers.info:" + Config.port +
+					"|raw|You can view the logs at <a href=\"http://158.69.196.64:" + Config.port +
+					"/logs/logviewer.html?file=" + filename + "\">http://158.69.196.64:" + Config.port +
 					"/logs/logviewer.html?file=" + filename + "</a>"
 				);
 				setTimeout(function () {
