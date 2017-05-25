@@ -117,7 +117,7 @@ exports.commands = {
 			if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
 			let winner = EM.lottery.players[Math.floor(Math.random() * EM.lottery.players.length)];
 			let jackpot = Math.floor(100 * Math.random()) + 1;
-			if (!EM.lottery.pot == 0) {
+			if (!EM.lottery.pot !== 0) {
 				if (jackpot == 100) {
 					Rooms.get("casino").add('|raw|<b><font size="7" color="green"><blink>JACKPOT!</blink></font></b>');
 					Rooms.get("casino").add('|raw|<b><font size="4" color="' + EM.Color(winner) + '">' + winner + '</b></font><font size="4"> has won the game of lottery for <b>' + (EM.lottery.pot * 2) + '</b> bucks!</font>');
