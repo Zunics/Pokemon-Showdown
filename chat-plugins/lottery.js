@@ -74,146 +74,146 @@ exports.commands = {
 			}
 			break;
 
-			case 'new':
-			case 'create':
-				if (!this.can('ban', null, room)) return false;
-				if (EM.lottery.gameActive) return this.errorReply("There is a game of Lottery already currently running.");
-				if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
-				if (!parts[1]) return this.errorReply("Usage: /lottery create, [ticket cost]");
-				EM.lottery.maxTicketsPerUser = 10; //default max tickets per user
-				EM.lottery.maxTicketPrice = 20;
-				if (isNaN(Number(parts[1]))) return this.errorReply('The pot must be a number greater than 0');
-				if (parts[1] > EM.lottery.maxTicketPrice) return this.errorReply("Lottery tickets cannot cost more than " + EM.lottery.maxTicketPrice + " bucks.");
-				EM.lottery.startTime = Date.now();
-				EM.lottery.ticketPrice = parts[1];
-				EM.lottery.gameActive = true;
-				EM.lottery.pot = 0;
-				EM.lottery.players = [];
-				EM.lottery.playerIPS = [];
-				EM.lottery.createdBy = user.name;
-				let room_notification =
+		case 'new':
+		case 'create':
+			if (!this.can('ban', null, room)) return false;
+			if (EM.lottery.gameActive) return this.errorReply("There is a game of Lottery already currently running.");
+			if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
+			if (!parts[1]) return this.errorReply("Usage: /lottery create, [ticket cost]");
+			EM.lottery.maxTicketsPerUser = 10; //default max tickets per user
+			EM.lottery.maxTicketPrice = 20;
+			if (isNaN(Number(parts[1]))) return this.errorReply('The pot must be a number greater than 0');
+			if (parts[1] > EM.lottery.maxTicketPrice) return this.errorReply("Lottery tickets cannot cost more than " + EM.lottery.maxTicketPrice + " bucks.");
+			EM.lottery.startTime = Date.now();
+			EM.lottery.ticketPrice = parts[1];
+			EM.lottery.gameActive = true;
+			EM.lottery.pot = 0;
+			EM.lottery.players = [];
+			EM.lottery.playerIPS = [];
+			EM.lottery.createdBy = user.name;
+			let room_notification =
 					"<div class=\"broadcast-gold\"><center><b><font size=4 color=red>Lottery Game!</font></b><br />" +
 					"<i><font color=gray>(Started by: " + Chat.escapeHTML(user.name) + ")</font></i><br />" +
 					"A game of lottery has been started!  Cost to join is <b>" + EM.lottery.ticketPrice + "</b> Bucks.<br />" +
 					"To buy a ticket, do <code>/lotto join</code>. (Max tickets per user: " + EM.lottery.maxTicketsPerUser + ")</center></div>";
-				if (parts[2] === 'pmall') {
-					if (!this.can('hotpatch')) return false;
-					let loto_notification =
+			if (parts[2] === 'pmall') {
+				if (!this.can('hotpatch')) return false;
+				let loto_notification =
 						"<center><font size=5 color=red><b>Lottery Game!</b></font><br />" +
 						"A game of Lottery has started in <button name=\"send\" value=\"/join casino\">Casino</button>!<br />" +
 						"The ticket cost to join is <b> " + EM.lottery.ticketPrice + "</b> Bucks.  For every ticket bought, the server automatically matches that price towards the pot.<br />" +
 						"(For more information, hop in the room and do /lotto or ask for help!)</center>";
-					EM.pmall('/html ' + loto_notification, '~Ember Lottery');
-					Rooms.get('casino').add('|raw|' + room_notification);
-				} else {
-					Rooms.get('casino').add('|raw|' + room_notification);
-				}
-				saveLottery();
-				break;
+				EM.pmall('/html ' + loto_notification, '~Ember Lottery');
+				Rooms.get('casino').add('|raw|' + room_notification);
+			} else {
+				Rooms.get('casino').add('|raw|' + room_notification);
+			}
+			saveLottery();
+			break;
 
-			case 'end':
-				if (!this.can('ban', null, room)) return false;
-				if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
-				if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
-				let winner = EM.lottery.players[Math.floor(Math.random() * EM.lottery.players.length)];
-				let jackpot = Math.floor(100 * Math.random()) + 1;
-				if (!EM.lottery.pot == 0) {
-					if (jackpot == 100) {
-						Rooms.get("casino").add('|raw|<b><font size="7" color="green"><blink>JACKPOT!</blink></font></b>');
-						Rooms.get("casino").add('|raw|<b><font size="4" color="' + EM.Color(winner) + '">' + winner + '</b></font><font size="4"> has won the game of lottery for <b>' + (EM.lottery.pot * 2) + '</b> bucks!</font>');
-						Economy.writeMoney(toId(winner), EM.lottery.pot * 2);
-						EM.lottery = {};
-						saveLottery();
-					} else {
-						Economy.writeMoney(toId(winner), EM.lottery.pot);
-						Rooms.get("casino").add('|raw|<b><font size="4" color="' + EM.Color(winner) + '">' + winner + '</b></font><font size="4"> has won the game of lottery for <b>' + EM.lottery.pot + '</b> bucks!</font>');
-						EM.lottery = {};
-						saveLottery();
-					}
-				} else if (EM.lottery.pot === 0) {
-					this.add('|raw|<b><font size="4">This game has been cancelled due to a lack of players by ' + Chat.escapeHTML(toId(user.name)) + '.');
+		case 'end':
+			if (!this.can('ban', null, room)) return false;
+			if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
+			if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
+			let winner = EM.lottery.players[Math.floor(Math.random() * EM.lottery.players.length)];
+			let jackpot = Math.floor(100 * Math.random()) + 1;
+			if (!EM.lottery.pot == 0) {
+				if (jackpot == 100) {
+					Rooms.get("casino").add('|raw|<b><font size="7" color="green"><blink>JACKPOT!</blink></font></b>');
+					Rooms.get("casino").add('|raw|<b><font size="4" color="' + EM.Color(winner) + '">' + winner + '</b></font><font size="4"> has won the game of lottery for <b>' + (EM.lottery.pot * 2) + '</b> bucks!</font>');
+					Economy.writeMoney(toId(winner), EM.lottery.pot * 2);
+					EM.lottery = {};
+					saveLottery();
+				} else {
+					Economy.writeMoney(toId(winner), EM.lottery.pot);
+					Rooms.get("casino").add('|raw|<b><font size="4" color="' + EM.Color(winner) + '">' + winner + '</b></font><font size="4"> has won the game of lottery for <b>' + EM.lottery.pot + '</b> bucks!</font>');
 					EM.lottery = {};
 					saveLottery();
 				}
-				this.privateModCommand("(" + Chat.escapeHTML(user.name) + " has ended the game of lottery.)");
-				break;
-
-			case 'setlimit':
-				if (!this.can('hotpatch')) return false;
-				if (!EM.lottery.gameActive) return this.errorReply("The game of lottery is not currently running.");
-				if (EM.lottery.players.length >= 1) return this.errorReply("You cannot change the limit because someone(s) have already bought a lottery ticket.");
-				if (!parts[1]) return this.errorReply("Usage: /lotto setlimit, [limit of tickets per user].");
-				if (isNaN(Number(parts[1]))) return this.errorReply('The pot must be a number greater than 0');
-				EM.lottery.maxTicketsPerUser = parts[1];
+			} else if (EM.lottery.pot === 0) {
+				this.add('|raw|<b><font size="4">This game has been cancelled due to a lack of players by ' + Chat.escapeHTML(toId(user.name)) + '.');
+				EM.lottery = {};
 				saveLottery();
-				this.add('|raw|<b><font size="4" color="' + EM.Color(user.name) + '">' + Chat.escapeHTML(user.name) + '</font><font size="4"> has changed the lottery ticket cap to: ' + EM.lottery.maxTicketsPerUser + '.</font></b>');
-				break;
+			}
+			this.privateModCommand("(" + Chat.escapeHTML(user.name) + " has ended the game of lottery.)");
+			break;
 
-			case 'limit':
-				return this.sendReply("The current cap of lottery tickets per user is: " + EM.lottery.maxTicketsPerUser);
-				break;
+		case 'setlimit':
+			if (!this.can('hotpatch')) return false;
+			if (!EM.lottery.gameActive) return this.errorReply("The game of lottery is not currently running.");
+			if (EM.lottery.players.length >= 1) return this.errorReply("You cannot change the limit because someone(s) have already bought a lottery ticket.");
+			if (!parts[1]) return this.errorReply("Usage: /lotto setlimit, [limit of tickets per user].");
+			if (isNaN(Number(parts[1]))) return this.errorReply('The pot must be a number greater than 0');
+			EM.lottery.maxTicketsPerUser = parts[1];
+			saveLottery();
+			this.add('|raw|<b><font size="4" color="' + EM.Color(user.name) + '">' + Chat.escapeHTML(user.name) + '</font><font size="4"> has changed the lottery ticket cap to: ' + EM.lottery.maxTicketsPerUser + '.</font></b>');
+			break;
 
-			case 'tickets':
-				if (!this.runBroadcast()) return;
-				if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
-				return this.sendReplyBox("<div style=\"max-height: 125px; overflow-y: auto; overflow-x: hidden;\" target=\"_blank\"><b>Current tickets: (" + EM.lottery.players.length + ")</b><br /> " + EM.lottery.players + "</div>");
-				break;
+		case 'limit':
+			this.sendReply("The current cap of lottery tickets per user is: " + EM.lottery.maxTicketsPerUser);
+			break;
 
-			case 'odds':
-				if (!this.runBroadcast()) return;
-				if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
-				if (!parts[1]) parts[1] = user.name;
-				if (EM.lottery.players.length > 1) {
-					let filteredPlayerArray = EM.lottery.players.filter(function(username) {
-						return username === toId(parts[1])
-					});
-					let chance = ((filteredPlayerArray.length / EM.lottery.players.length) * 100).toFixed(1);
-				}
-				if (chance == 0) return this.sendReplyBox("User '" + Chat.escapeHTML(parts[1]) + "' is not in the current game of lottery.  Check spelling?");
-				return this.sendReplyBox("<b><font color=" + EM.Color(parts[1]) + ">" + Chat.escapeHTML(parts[1]) + "</font></b> has a " + chance + "% chance of winning the game of lottery right now.");
-				break;
+		case 'tickets':
+			if (!this.runBroadcast()) return;
+			if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
+			this.sendReplyBox("<div style=\"max-height: 125px; overflow-y: auto; overflow-x: hidden;\" target=\"_blank\"><b>Current tickets: (" + EM.lottery.players.length + ")</b><br /> " + EM.lottery.players + "</div>");
+			break;
 
-			case 'reload':
-				loadLottery();
-				this.sendReply("You have reloaded the lottery database.");
-				break;
+		case 'odds':
+			if (!this.runBroadcast()) return;
+			if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
+			if (!parts[1]) parts[1] = user.name;
+			if (EM.lottery.players.length > 1) {
+				let filteredPlayerArray = EM.lottery.players.filter(function(username) {
+					return username === toId(parts[1])
+				});
+				let chance = ((filteredPlayerArray.length / EM.lottery.players.length) * 100).toFixed(1);
+			}
+			if (chance == 0) return this.sendReplyBox("User '" + Chat.escapeHTML(parts[1]) + "' is not in the current game of lottery.  Check spelling?");
+			this.sendReplyBox("<b><font color=" + EM.Color(parts[1]) + ">" + Chat.escapeHTML(parts[1]) + "</font></b> has a " + chance + "% chance of winning the game of lottery right now.");
+			break;
 
-			case 'status':
-				if (!this.runBroadcast()) return;
-				if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
-				return this.sendReplyBox(
-					"<div style=\"max-height: 125px; overflow-y: auto; overflow-x: hidden;\" target=\"_blank\">" +
-					"<u>Lottery Game Status:</u><br />" +
-					"Game started by: <b><font color=" + EM.Color(EM.lottery.createdBy) + ">" + Chat.escapeHTML(EM.lottery.createdBy) + "</font></b><br />" +
-					"Pot: <b>" + lottery.pot + " Bucks</b><br />" +
-					"Ticket price: <b>" + EM.lottery.ticketPrice + " Bucks</b><br />" +
-					"Game started: <b>" + moment(EM.lottery.startTime).fromNow() + "</b><br />" +
-					"Max tickets per user: <b>" + EM.lottery.maxTicketsPerUser + "</b><br />" +
-					"<b>Tickets bought (" + EM.lottery.players.length + "):</b><br />" +
-					EM.lottery.players + "</div>"
-				);
-				break;
+		case 'reload':
+			loadLottery();
+			this.sendReply("You have reloaded the lottery database.");
+			break;
 
-			case 'uptime':
-				if (!this.runBroadcast()) return;
-				if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
-				return this.sendReplyBox("Lottery Game Uptime: <b>" + moment(EM.lottery.startTime).fromNow() + "</b>");
-				break;
+		case 'status':
+			if (!this.runBroadcast()) return;
+			if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
+			this.sendReplyBox(
+				"<div style=\"max-height: 125px; overflow-y: auto; overflow-x: hidden;\" target=\"_blank\">" +
+				"<u>Lottery Game Status:</u><br />" +
+				"Game started by: <b><font color=" + EM.Color(EM.lottery.createdBy) + ">" + Chat.escapeHTML(EM.lottery.createdBy) + "</font></b><br />" +
+				"Pot: <b>" + lottery.pot + " Bucks</b><br />" +
+				"Ticket price: <b>" + EM.lottery.ticketPrice + " Bucks</b><br />" +
+				"Game started: <b>" + moment(EM.lottery.startTime).fromNow() + "</b><br />" +
+				"Max tickets per user: <b>" + EM.lottery.maxTicketsPerUser + "</b><br />" +
+				"<b>Tickets bought (" + EM.lottery.players.length + "):</b><br />" +
+				EM.lottery.players + "</div>"
+			);
+			break;
 
-			case 'pot':
-				if (!this.runBroadcast()) return;
-				if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
-				return this.sendReplyBox("The current lottery pot is worth: <b>" + EM.lottery.pot + "</b> bucks.");
-				break;
+		case 'uptime':
+			if (!this.runBroadcast()) return;
+			if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
+			this.sendReplyBox("Lottery Game Uptime: <b>" + moment(EM.lottery.startTime).fromNow() + "</b>");
+			break;
 
-			case 'obj':
-				if (!this.can('hotpatch')) return false;
-				return this.sendReplyBox(JSON.stringify(EM.lottery)); //not sure if this needs to stringify
-				break;
+		case 'pot':
+			if (!this.runBroadcast()) return;
+			if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
+			this.sendReplyBox("The current lottery pot is worth: <b>" + EM.lottery.pot + "</b> bucks.");
+			break;
 
-			default:
-				if (!this.runBroadcast()) return;
-				this.sendReplyBox(
+		case 'obj':
+			if (!this.can('hotpatch')) return false;
+			this.sendReplyBox(JSON.stringify(EM.lottery)); //not sure if this needs to stringify
+			break;
+
+		default:
+			if (!this.runBroadcast()) return;
+			this.sendReplyBox(
 					"<center><b>Lottery Commands</b><br />" +
 					"<code>/lotto create, [ticket price]</code> - Starts a game of lotto with the respected ticket price. (Requires @, #, &, ~)<br />" +
 					"<code>/lotto create, [ticket price], pmall</code> - Starts a game of lotto with the respected ticket price AND notifies everyone. (Requires ~)<br />" +
