@@ -32,47 +32,47 @@ exports.commands = {
 		if (!Rooms.get('casino')) return this.errorReply("You must have the room \"Casino\" in order to use this script.");
 		switch (toId(parts[0])) {
 
-			case 'buy':
-			case 'join':
-				if (!EM.lottery.gameActive) return this.errorReply("The game of lottery is not currently running.");
-				if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
-				if (parts[1]) {
-					if (isNaN(Number(parts[1]))) return this.errorReply("The amount of tickets you buy must be a number.");
-					if (~String(parts[1]).indexOf('.')) return this.errorReply("Cannot contain a decimal.");
-					if (Number(parts[1]) < 1) return this.errorReply("Cannot be less than 1.");
-					let bought = parts[1];
-					if (bought > EM.lottery.maxTicketsPerUser) return this.errorReply("You cannot get this many lottery tickets.");
-					if (bought * EM.lottery.ticketPrice > Db('money').get(user.userid, 0)) return this.errorReply("Sorry, you do not have enough bucks to buy that many tickets.");
-					if (EM.lottery.playerIPS.length > 1) {
-						let filteredPlayerArray = EM.lottery.playerIPS.filter(function(ip) {
-							return ip === user.latestIp;
-						});
-						if (Number(Object.keys(filteredPlayerArray).length) + Number(bought) > EM.lottery.maxTicketsPerUser) return this.errorReply("You cannot get more than " + EM.lottery.maxTicketsPerUser + " tickets for this game of lotto.");
-					}
-					Economy.writeMoney(toId(user.name), -bought * EM.lottery.ticketPrice);
-					EM.lottery.pot = Math.round(EM.lottery.pot + (EM.lottery.ticketPrice * bought * 1.5));
-					Rooms.get('casino').add("|raw|<b><font color=" + EM.Color(user.name) + ">" + user.name + "</font></b> has bought " + bought + " lottery tickets.");
-					for (let x=bought; x>0; x--) {
-						EM.lottery.players.push(toId(user.name));
-						EM.lottery.playerIPS.push(user.latestIp);
-					}
-					saveLottery();
-				} else {
-					if (Economy.readMoney(toId(user.name)) < EM.lottery.ticketPrice) return this.errorReply("You do not have enough bucks to partake in this game of Lottery.  Sorry.");
-					if (EM.lottery.playerIPS.length > 1) {
-						let filteredPlayerArray = EM.lottery.playerIPS.filter(function(ip) {
-							return ip === user.latestIp;
-						});
-						if (filteredPlayerArray.length >= EM.lottery.maxTicketsPerUser)  return this.errorReply("You cannot get more than " + EM.lottery.maxTicketsPerUser + " tickets for this game of lotto.");
-					}
-					Economy.writeMoney(toId(user.name), -EM.lottery.ticketPrice);
-					EM.lottery.pot = Math.round(EM.lottery.pot + (EM.lottery.ticketPrice * 1.5));
-					Rooms.get('casino').add("|raw|<b><font color=" + EM.Color(user.name) + ">" + user.name + "</font></b> has bought a lottery ticket.");
+		case 'buy':
+		case 'join':
+			if (!EM.lottery.gameActive) return this.errorReply("The game of lottery is not currently running.");
+			if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
+			if (parts[1]) {
+				if (isNaN(Number(parts[1]))) return this.errorReply("The amount of tickets you buy must be a number.");
+				if (~String(parts[1]).indexOf('.')) return this.errorReply("Cannot contain a decimal.");
+				if (Number(parts[1]) < 1) return this.errorReply("Cannot be less than 1.");
+				let bought = parts[1];
+				if (bought > EM.lottery.maxTicketsPerUser) return this.errorReply("You cannot get this many lottery tickets.");
+				if (bought * EM.lottery.ticketPrice > Db('money').get(user.userid, 0)) return this.errorReply("Sorry, you do not have enough bucks to buy that many tickets.");
+				if (EM.lottery.playerIPS.length > 1) {
+					let filteredPlayerArray = EM.lottery.playerIPS.filter(function(ip) {
+						return ip === user.latestIp;
+					});
+					if (Number(Object.keys(filteredPlayerArray).length) + Number(bought) > EM.lottery.maxTicketsPerUser) return this.errorReply("You cannot get more than " + EM.lottery.maxTicketsPerUser + " tickets for this game of lotto.");
+				}
+				Economy.writeMoney(toId(user.name), -bought * EM.lottery.ticketPrice);
+				EM.lottery.pot = Math.round(EM.lottery.pot + (EM.lottery.ticketPrice * bought * 1.5));
+				Rooms.get('casino').add("|raw|<b><font color=" + EM.Color(user.name) + ">" + user.name + "</font></b> has bought " + bought + " lottery tickets.");
+				for (let x=bought; x>0; x--) {
 					EM.lottery.players.push(toId(user.name));
 					EM.lottery.playerIPS.push(user.latestIp);
-					saveLottery();
 				}
-				break;
+				saveLottery();
+			} else {
+				if (Economy.readMoney(toId(user.name)) < EM.lottery.ticketPrice) return this.errorReply("You do not have enough bucks to partake in this game of Lottery.  Sorry.");
+				if (EM.lottery.playerIPS.length > 1) {
+					let filteredPlayerArray = EM.lottery.playerIPS.filter(function(ip) {
+						return ip === user.latestIp;
+					});
+					if (filteredPlayerArray.length >= EM.lottery.maxTicketsPerUser)  return this.errorReply("You cannot get more than " + EM.lottery.maxTicketsPerUser + " tickets for this game of lotto.");
+				}
+				Economy.writeMoney(toId(user.name), -EM.lottery.ticketPrice);
+				EM.lottery.pot = Math.round(EM.lottery.pot + (EM.lottery.ticketPrice * 1.5));
+				Rooms.get('casino').add("|raw|<b><font color=" + EM.Color(user.name) + ">" + user.name + "</font></b> has bought a lottery ticket.");
+				EM.lottery.players.push(toId(user.name));
+				EM.lottery.playerIPS.push(user.latestIp);
+				saveLottery();
+			}
+			break;
 
 			case 'new':
 			case 'create':
