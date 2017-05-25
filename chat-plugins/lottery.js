@@ -163,13 +163,14 @@ exports.commands = {
 			if (!this.runBroadcast()) return;
 			if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
 			if (!parts[1]) parts[1] = user.name;
+			let chance = 0;
 			if (EM.lottery.players.length > 1) {
 				let filteredPlayerArray = EM.lottery.players.filter(function(username) {
 					return username === toId(parts[1])
 				});
-				let chance = ((filteredPlayerArray.length / EM.lottery.players.length) * 100).toFixed(1);
+				chance = ((filteredPlayerArray.length / EM.lottery.players.length) * 100).toFixed(1);
 			}
-			if (chance == 0) return this.sendReplyBox("User '" + Chat.escapeHTML(parts[1]) + "' is not in the current game of lottery.  Check spelling?");
+			if (chance === 0) return this.sendReplyBox("User '" + Chat.escapeHTML(parts[1]) + "' is not in the current game of lottery.  Check spelling?");
 			this.sendReplyBox("<b><font color=" + EM.Color(parts[1]) + ">" + Chat.escapeHTML(parts[1]) + "</font></b> has a " + chance + "% chance of winning the game of lottery right now.");
 			break;
 
