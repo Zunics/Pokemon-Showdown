@@ -25,7 +25,7 @@ function saveLottery() {
 exports.commands = {
 	loto: 'lottery',
 	lotto: 'lottery',
-	lottery: function(target, room, user) {
+	lottery: function (target, room, user) {
 		let parts = target.split(',');
 		for (let u in parts) parts[u] = parts[u].trim();
 		if (room.id !== 'casino') return this.errorReply("You must be in Casino to use this command.");
