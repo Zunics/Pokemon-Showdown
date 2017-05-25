@@ -56,6 +56,7 @@ exports.commands = {
 				roomList.push(rooms[u]);
 			}
 		}
+		if (roomList.length + groupChats.length + chatRooms.length < 0) return this.errorReply("You don't have access to view the logs of any rooms.");
 
 		let output = "Choose a room to view the logs:<br />";
 		let official = [];
