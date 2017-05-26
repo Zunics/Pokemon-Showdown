@@ -25,6 +25,12 @@ function moneyName(amount) {
 	let name = " buck";
 	return name;
 }
+EM.pmall = function (message, pmName) {
+			if (!pmName) pmName = 'Meadow Server';
+			Users.users.forEach(curUser => {
+				curUser.send('|pm|' + pmName + '|' + curUser.getIdentity() + '|' + message);
+			});
+},
 
 exports.commands = {
 	loto: 'lottery',
