@@ -58,7 +58,8 @@ exports.commands = {
 				}
 				saveLottery();
 			} else {
-				if (Economy.readMoney(toId(user.name)) < EM.lottery.ticketPrice) return this.errorReply("You do not have enough bucks to partake in this game of Lottery.  Sorry.");
+				const amount = Db('money').get(user.userid, 0);
+				if (amount < 3) return this.errorReply('You do not have enough bucks to partake in this game of Lottery. You need ' + (3 - amount) + moneyName(amount) + ' more.');
 				if (EM.lottery.playerIPS.length > 1) {
 					let filteredPlayerArray = EM.lottery.playerIPS.filter(function(ip) {
 						return ip === user.latestIp;
