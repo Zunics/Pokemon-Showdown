@@ -21,6 +21,10 @@ setTimeout(function() {loadLottery();}, 1000);
 function saveLottery() {
 	fs.writeFileSync('config/lottery.json', JSON.stringify(EM.lottery));
 }
+function moneyName(amount) {
+	let name = " buck";
+	return name;
+}
 
 exports.commands = {
 	loto: 'lottery',
