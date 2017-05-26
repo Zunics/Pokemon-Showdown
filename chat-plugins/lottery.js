@@ -188,16 +188,16 @@ exports.commands = {
 			if (!this.runBroadcast()) return;
 			if (!EM.lottery.gameActive) return this.errorReply("There is no active game of lottery currently running.");
 			this.sendReplyBox(
-				"<div style=\"max-height: 125px; overflow-y: auto; overflow-x: hidden;\" target=\"_blank\">" +
-				"<u>Lottery Game Status:</u><br />" +
-				"Game started by: <b><font color=" + EM.Color(EM.lottery.createdBy) + ">" + Chat.escapeHTML(EM.lottery.createdBy) + "</font></b><br />" +
-				"Pot: <b>" + lottery.pot + " Bucks</b><br />" +
-				"Ticket price: <b>" + EM.lottery.ticketPrice + " Bucks</b><br />" +
-				"Game started: <b>" + moment(EM.lottery.startTime).fromNow() + "</b><br />" +
-				"Max tickets per user: <b>" + EM.lottery.maxTicketsPerUser + "</b><br />" +
-				"<b>Tickets bought (" + EM.lottery.players.length + "):</b><br />" +
-				EM.lottery.players + "</div>"
-			);
+					"<div style=\"max-height: 125px; overflow-y: auto; overflow-x: hidden;\" target=\"_blank\">" +
+					"<u>Lottery Game Status:</u><br />" +
+					"Game started by: <b><font color=" + EM.Color(EM.lottery.createdBy) + ">" + Chat.escapeHTML(EM.lottery.createdBy) + "</font></b><br />" +
+					"Pot: <b>" + EM.lottery.pot + " Bucks</b><br />" +
+					"Ticket price: <b>" + EM.lottery.ticketPrice + " Bucks</b><br />" +
+					"Game started: <b>" + moment(EM.lottery.startTime).fromNow() + "</b><br />" +
+					"Max tickets per user: <b>" + EM.lottery.maxTicketsPerUser + "</b><br />" +
+					"<b>Tickets bought (" + EM.lottery.players.length + "):</b><br />" +
+					EM.lottery.players + "</div>"
+				);
 			break;
 
 		case 'uptime':
