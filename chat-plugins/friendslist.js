@@ -82,6 +82,7 @@ function friendsNotify(user) {
 EM.friendsNotify = friendsNotify;
 
 function formatList(user, by) {
+	Economy.readMoney(frens, money => {
 	if (!Friends[user]) Friends[user] = [];
 	let reply = "<div style=\"max-height: 150px; overflow-y: auto; overflow-x: hidden;\" target=\"_blank\"><b><u>Friendslist of </u><u>" + getName(user, true, true) + "</u> (" + Friends[user].length + "):</b><br />";
 	reply += (NotifySetting[user] ? "(<i>does</i> get notified when friends come online)" : "(<i>does NOT</i> get notified when friends come online)");
@@ -94,7 +95,7 @@ function formatList(user, by) {
 			return Chat.toDurationString(Date.now() - seen, {precision: true}) + " ago.";
 	}
 	Friends[user].forEach(function (frens) {
-		reply += "<tr><td>" + getName(frens, true, true) + "</td><td>" + lastSeen(frens) + "</td><td>" + (EM.readMoney(frens) === 0 ? "None" : EM.readMoney(frens)) + "</td></tr>";
+		reply += "<tr><td>" + getName(frens, true, true) + "</td><td>" + lastSeen(frens) + "</td><td>" + money + "</td></tr>";
 	});
 	reply += "</table>";
 	let number = getFriendsNumber(user);
