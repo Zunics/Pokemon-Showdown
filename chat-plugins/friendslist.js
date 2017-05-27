@@ -103,6 +103,7 @@ function formatList(user, by) {
 	reply += (number > 0 ? "<button title=\"See who added " + user + " as a friend.\" name=\"send\" value=\"/friendslist getadded, " + user + "\">" + number + label + " added " + getName(user, false, false) + " as a friend.</button>" : "");
 	reply += "</div>";
 	return reply;
+	});
 }
 
 exports.commands = {
