@@ -89,7 +89,7 @@ function formatList(user, by) {
 	reply += '<table border="1" cellspacing ="0" cellpadding="3">';
 	reply += "<tr><td><u>Friend:</u></td><td><u>Last Online:</u></td><td><u>Bucks:</u></td></tr>";
 	function lastSeen(frens) {
-			if (Users(userid) && Users(userid).connected) return '<font color = "limegreen"><strong>Currently Online</strong></font>';
+			if (Users(frens) && Users(frens).connected) return '<font color = "limegreen"><strong>Currently Online</strong></font>';
 			let seen = Db('seen').get(userid);
 			if (!seen) return '<font color = "red"><strong>Never</strong></font>';
 			return Chat.toDurationString(Date.now() - seen, {precision: true}) + " ago.";
