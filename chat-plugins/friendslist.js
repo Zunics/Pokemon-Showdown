@@ -104,6 +104,22 @@ function formatList(user, by) {
 	return reply;
 }
 
+function updateFriends(user, friend, action) {
+			friend = toId(friend);
+			let data = this.checkExisting(user);
+			if (!data.friends) data.friends = [];
+
+			if (action === 'ADD') {
+				if (!data.friends.includes(friend))data.friends.push(friend);
+			} else if (action === 'DELETE') {
+				if (data.friends.includes(friend)) data.friends.splice(data.friends.indexOf(friend), 1);
+			} else {
+				return false;
+			}
+
+			this.saveData();
+},
+
 exports.commands = {
 	frens: 'friendslist',
 	friends: 'friendslist',
