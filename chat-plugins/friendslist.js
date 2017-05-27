@@ -84,17 +84,17 @@ EM.friendsNotify = friendsNotify;
 function formatList(user, by) {
 	if (!Friends(user)) Friends(user) = [];
 	let reply = "<div style=\"max-height: 150px; overflow-y: auto; overflow-x: hidden;\" target=\"_blank\"><b><u>Friendslist of </u><u>" + getName(user, true, true) + "</u> (" + Friends(user).length + "):</b><br />";
-	reply += (NotifySetting[user] ? "(<i>does</i> get notified when friends come online)" : "(<i>does NOT</i> get notified when friends come online)");
+	reply += (NotifySetting(user) ? "(<i>does</i> get notified when friends come online)" : "(<i>does NOT</i> get notified when friends come online)");
 	reply += '<table border="1" cellspacing ="0" cellpadding="3">';
 	reply += "<tr><td><u>Friend:</u></td><td><u>Last Online:</u></td><td><u>Bucks:</u></td></tr>";
-	function lastSeen(frens) {
-			if (Users(frens) && Users(frens).connected) return '<font color = "limegreen"><strong>Currently Online</strong></font>';
+	function lastSeen(user) {
+			if (Users(user) && Users(user).connected) return '<font color = "limegreen"><strong>Currently Online</strong></font>';
 			let seen = Db('seen').get(userid);
 			if (!seen) return '<font color = "red"><strong>Never</strong></font>';
 			return Chat.toDurationString(Date.now() - seen, {precision: true}) + " ago.";
 	}
-	Friends(user).forEach(function (frens) {
-		reply += "<tr><td>" + getName(frens, true, true) + "</td><td>" + lastSeen(frens) + "</td><td>" + (EM.readMoney(frens) === 0 ? "None" : EM.readMoney(frens)) + "</td></tr>";
+	Friends(user).forEach(function (user) {
+		reply += "<tr><td>" + getName(user, true, true) + "</td><td>" + lastSeen(user) + "</td><td>" + (EM.readMoney(user) === 0 ? "None" : EM.readMoney(user)) + "</td></tr>";
 	});
 	reply += "</table>";
 	let number = getFriendsNumber(user);
