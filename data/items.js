@@ -1118,7 +1118,7 @@ exports.BattleItems = {
 	},
 	"deepseascale": {
 		id: "deepseascale",
-		name: "Deep Sea Scale",
+		name: "DeepSeaScale",
 		spritenum: 93,
 		fling: {
 			basePower: 30,
@@ -1135,7 +1135,7 @@ exports.BattleItems = {
 	},
 	"deepseatooth": {
 		id: "deepseatooth",
-		name: "Deep Sea Tooth",
+		name: "DeepSeaTooth",
 		spritenum: 94,
 		fling: {
 			basePower: 90,
