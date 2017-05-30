@@ -19027,7 +19027,6 @@ exports.BattleMovedex = {
 				spa: -1,
 			},
 		},
-		stealsBoosts: true,
 		target: "normal",
 		type: "Water",
 		contestType: "Cute",
