@@ -44,16 +44,16 @@ exports.commands = {
 			url = 'http://www.pkparaiso.com/imagenes/xy/sprites/animados/';
 		}
 		let main = target[0].split(',');
-		if (Tools.data.Pokedex[toId(sprite)]) {
-			sprite = Tools.data.Pokedex[toId(sprite)].species.toLowerCase();
+		if (Dex.data.Pokedex[toId(sprite)]) {
+			sprite = Dex.data.Pokedex[toId(sprite)].species.toLowerCase();
 		} else {
-			let correction = Tools.dataSearch(toId(sprite));
+			let correction = Dex.dataSearch(toId(sprite));
 			if (correction && correction.length) {
 				for (let i = 0; i < correction.length; i++) {
-					if (correction[i].id !== toId(sprite) && !Tools.data.Aliases[toId(correction[i].id)] && !i) {
-						if (!Tools.data.Pokedex[toId(correction[i])]) continue;
-						if (!Tools.data.Aliases[toId(sprite)]) this.sendReply("There isn't any Pokémon called '" + sprite + "'... Did you mean '" + correction[0].name + "'?\n");
-						sprite = Tools.data.Pokedex[correction[0].id].species.toLowerCase();
+					if (correction[i].id !== toId(sprite) && !Dex.data.Aliases[toId(correction[i].id)] && !i) {
+						if (!Dex.data.Pokedex[toId(correction[i])]) continue;
+						if (!Dex.data.Aliases[toId(sprite)]) this.sendReply("There isn't any Pokémon called '" + sprite + "'... Did you mean '" + correction[0].name + "'?\n");
+						sprite = Dex.data.Pokedex[correction[0].id].species.toLowerCase();
 					}
 				}
 			} else {
