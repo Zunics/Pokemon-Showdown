@@ -23,7 +23,52 @@ exports.commands = {
 					"<br />" +
 					"<i>Please follow these rules to make the server a friendly and enjoyable place to be. Breaking any rules will result in punishment.</i><br />");
 	},
-	
+
+	spr: 'sprite',
+	sprite: function (target, room, user, connection, cmd) {
+		if (!this.runBroadcast()) return;
+		if (!toId(target)) return this.sendReply('/sprite [Pokémon] - Allows you to view the sprite of a Pokémon');
+		target = target.toLowerCase().split(',');
+		let alt = '';
+		let type = toId(target[1]);
+		let sprite = target[0].trim();
+		let url;
+		if (type === 'shiny') url = 'http://play.pokemonshowdown.com/sprites/xyani-shiny/';
+		else if (type === 'back') url = 'http://play.pokemonshowdown.com/sprites/xyani-back/';
+		else if (type === 'backshiny' || type === 'shinyback') url = 'http://play.pokemonshowdown.com/sprites/xyani-back-shiny/';
+		else url = 'http://play.pokemonshowdown.com/sprites/xyani/';
+
+		if (Number(sprite[sprite.length - 1]) && !toId(sprite[sprite.length - 2])) {
+			alt = '-' + sprite[sprite.length - 1];
+			sprite = sprite.substr(0, sprite.length - 1);
+			url = 'http://www.pkparaiso.com/imagenes/xy/sprites/animados/';
+		}
+		let main = target[0].split(',');
+		if (Tools.data.Pokedex[toId(sprite)]) {
+			sprite = Tools.data.Pokedex[toId(sprite)].species.toLowerCase();
+		} else {
+			let correction = Tools.dataSearch(toId(sprite));
+			if (correction && correction.length) {
+				for (let i = 0; i < correction.length; i++) {
+					if (correction[i].id !== toId(sprite) && !Tools.data.Aliases[toId(correction[i].id)] && !i) {
+						if (!Tools.data.Pokedex[toId(correction[i])]) continue;
+						if (!Tools.data.Aliases[toId(sprite)]) this.sendReply("There isn't any Pokémon called '" + sprite + "'... Did you mean '" + correction[0].name + "'?\n");
+						sprite = Tools.data.Pokedex[correction[0].id].species.toLowerCase();
+					}
+				}
+			} else {
+				return this.sendReply("There isn\'t any Pokémon called '" + sprite + "'...");
+			}
+		}
+		let self = this;
+		require('request').get(url + sprite + alt + '.gif').on('error', function () {
+			self.sendReply('The sprite for ' + sprite + alt + ' is unavailable.');
+		}).on('response', function (response) {
+			if (response.statusCode == 404) return self.sendReply('The sprite for ' + sprite + alt + ' is currently unavailable.');
+			self.sendReply('|html|<img src = "' + url + sprite + alt + '.gif">');
+		});
+	},
+
 	'!discord': true,
 	    discord: function (target, room, user) {
 		        if (!this.runBroadcast()) return;
