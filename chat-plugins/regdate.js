@@ -48,7 +48,7 @@ function saveRegdateCache() {
 	fs.writeFileSync('config/regdate.json', JSON.stringify(regdateCache));
 }
 
-SG.parseMessage = function (message) {
+EM.parseMessage = function (message) {
 	if (message.substr(0, 5) === "/html") {
 		message = message.substr(5);
 		message = message.replace(/\_\_([^< ](?:[^<]*?[^< ])?)\_\_(?![^<]*?<\/a)/g, '<i>$1</i>'); // italics
