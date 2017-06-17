@@ -7,9 +7,9 @@ This plugin allows you to use emoticons in both chat rooms (as long as they are 
 const fs = require('fs');
 let emoticons = {'feelsbd': 'http://i.imgur.com/TZvJ1lI.png'};
 let emoteRegex = new RegExp('feelsbd', 'g');
-SG.ignoreEmotes = {};
+EM.ignoreEmotes = {};
 try {
-	SG.ignoreEmotes = JSON.parse(fs.readFileSync('config/ignoreemotes.json', 'utf8'));
+	EM.ignoreEmotes = JSON.parse(fs.readFileSync('config/ignoreemotes.json', 'utf8'));
 } catch (e) {}
 
 function loadEmoticons() {
@@ -35,14 +35,14 @@ function saveEmoticons() {
 
 function parseEmoticons(message) {
 	if (emoteRegex.test(message)) {
-		message = SG.parseMessage(message).replace(emoteRegex, function (match) {
+		message = EM.parseMessage(message).replace(emoteRegex, function (match) {
 			return '<img src="' + emoticons[match] + '" title="' + match + '" height="40" width="40">';
 		});
 		return message;
 	}
 	return false;
 }
-SG.parseEmoticons = parseEmoticons;
+EM.parseEmoticons = parseEmoticons;
 
 exports.commands = {
 	blockemote: 'ignoreemotes',
@@ -77,9 +77,9 @@ exports.commands = {
 			emoticons[parts[1]] = parts[2];
 			saveEmoticons();
 			this.sendReply('|raw|The emoticon "' + Chat.escapeHTML(parts[1]) + '" has been added: <img src="' + parts[2] + '">');
-			Rooms('upperstaff').add('|raw|' + SG.nameColor(user.name, true) + ' has added the emote "' + Chat.escapeHTML(parts[1]) +
+			Rooms('upperstaff').add('|raw|' + EM.nameColor(user.name, true) + ' has added the emote "' + Chat.escapeHTML(parts[1]) +
 				'": <img width="40" height="40" src="' + parts[2] + '">').update();
-			SG.messageSeniorStaff('/html ' + SG.nameColor(user.name, true) + ' has added the emote "' + Chat.escapeHTML(parts[1]) +
+			EM.messageSeniorStaff('/html ' + EM.nameColor(user.name, true) + ' has added the emote "' + Chat.escapeHTML(parts[1]) +
 				'": <img width="40" height="40" src="' + parts[2] + '">');
 			break;
 
