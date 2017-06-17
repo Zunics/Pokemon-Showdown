@@ -3,19 +3,18 @@ Emoticon plugin
 This plugin allows you to use emoticons in both chat rooms (as long as they are enabled in the room) and private messages.
 */
 'use strict';
-const EM = {};
+
 const fs = require('fs');
-let emoticons = {'feelsbd': 'http://i.imgur.com/YyEdmwX.png'};
+let emoticons = {'feelsbd': 'http://i.imgur.com/TZvJ1lI.png'};
 let emoteRegex = new RegExp('feelsbd', 'g');
-EM.ignoreEmotes = {};
+SG.ignoreEmotes = {};
 try {
-	EM.ignoreEmotes = JSON.parse(fs.readFileSync(DATA_DIR + 'ignoreemotes.json', 'utf8'));
+	SG.ignoreEmotes = JSON.parse(fs.readFileSync('config/ignoreemotes.json', 'utf8'));
 } catch (e) {}
-exports.ignoreEmotes = EM.ignoreEmotes;
-EM.ignoreEmotes = EM.ignoreEmotes;
+
 function loadEmoticons() {
 	try {
-		emoticons = JSON.parse(fs.readFileSync(DATA_DIR + 'emoticons.json', 'utf8'));
+		emoticons = JSON.parse(fs.readFileSync('config/emoticons.json', 'utf8'));
 		emoteRegex = [];
 		for (let emote in emoticons) {
 			emoteRegex.push(escapeRegExp(emote));
@@ -26,7 +25,7 @@ function loadEmoticons() {
 loadEmoticons();
 
 function saveEmoticons() {
-	fs.writeFileSync(DATA_DIR + 'emoticons.json', JSON.stringify(emoticons));
+	fs.writeFileSync('config/emoticons.json', JSON.stringify(emoticons));
 	emoteRegex = [];
 	for (let emote in emoticons) {
 		emoteRegex.push(emote);
@@ -34,19 +33,34 @@ function saveEmoticons() {
 	emoteRegex = new RegExp('(' + emoteRegex.join('|') + ')', 'g');
 }
 
-function parseEmoticons(message, room) {
+function parseEmoticons(message) {
 	if (emoteRegex.test(message)) {
-		message = (message).replace(emoteRegex, function (match) {
-			return '<img src="' + emoticons[match] + '" title="' + match + '" height="50" width="50">';
+		message = SG.parseMessage(message).replace(emoteRegex, function (match) {
+			return '<img src="' + emoticons[match] + '" title="' + match + '" height="40" width="40">';
 		});
 		return message;
 	}
 	return false;
 }
-exports.parseEmoticons = parseEmoticons;
-EM.parseEmoticons = parseEmoticons;
+SG.parseEmoticons = parseEmoticons;
 
 exports.commands = {
+	blockemote: 'ignoreemotes',
+	blockemotes: 'ignoreemotes',
+	blockemoticon: 'ignoreemotes',
+	blockemoticons: 'ignoreemotes',
+	ignoreemotes: function (target, room, user) {
+		this.parse('/emoticons ignore');
+	},
+
+	unblockemote: 'unignoreemotes',
+	unblockemotes: 'unignoreemotes',
+	unblockemoticon: 'unignoreemotes',
+	unblockemoticons: 'unignoreemotes',
+	unignoreemotes: function (target, room, user) {
+		this.parse('/emoticons unignore');
+	},
+
 	emoticons: 'emoticon',
 	emote: 'emoticon',
 	emotes: 'emoticon',
@@ -57,33 +71,63 @@ exports.commands = {
 
 		switch (parts[0]) {
 		case 'add':
-			if (!this.can('forcewin')) return false;
+			if (!this.can('roomowner')) return false;
 			if (!parts[2]) return this.sendReply("Usage: /emoticon add, [name], [url] - Remember to resize the image first! (recommended 30x30)");
 			if (emoticons[parts[1]]) return this.sendReply("\"" + parts[1] + "\" is already an emoticon.");
 			emoticons[parts[1]] = parts[2];
 			saveEmoticons();
 			this.sendReply('|raw|The emoticon "' + Chat.escapeHTML(parts[1]) + '" has been added: <img src="' + parts[2] + '">');
-			Rooms('staff').add('|raw|' + (user.name) + ' has added the emote "' + Chat.escapeHTML(parts[1]) +
+			Rooms('upperstaff').add('|raw|' + SG.nameColor(user.name, true) + ' has added the emote "' + Chat.escapeHTML(parts[1]) +
 				'": <img width="40" height="40" src="' + parts[2] + '">').update();
+			SG.messageSeniorStaff('/html ' + SG.nameColor(user.name, true) + ' has added the emote "' + Chat.escapeHTML(parts[1]) +
+				'": <img width="40" height="40" src="' + parts[2] + '">');
 			break;
 
 		case 'delete':
 		case 'remove':
 		case 'rem':
 		case 'del':
-			if (!this.can('forcewin')) return false;
+			if (!this.can('roomowner')) return false;
 			if (!parts[1]) return this.sendReply("Usage: /emoticon del, [name]");
 			if (!emoticons[parts[1]]) return this.sendReply("The emoticon \"" + parts[1] + "\" does not exist.");
 			delete emoticons[parts[1]];
 			saveEmoticons();
 			this.sendReply("The emoticon \"" + parts[1] + "\" has been removed.");
 			break;
+
+		case 'on':
+		case 'enable':
+		case 'disable':
+		case 'off':
+			if (!this.can('roommod', null, room)) return this.sendReply('Access denied.');
+			let status = ((parts[0] !== 'enable' && parts[0] !== 'on'));
+			if (room.disableEmoticons === status) return this.sendReply("Emoticons are already " + (status ? "disabled" : "enabled") + " in this room.");
+			room.disableEmoticons = status;
+			room.chatRoomData.disableEmoticons = status;
+			Rooms.global.writeChatRoomData();
+			this.privateModCommand('(' + user.name + ' ' + (status ? ' disabled ' : ' enabled ') + 'emoticons in this room.)');
+			break;
+
 		case 'view':
 		case 'list':
 			if (!this.runBroadcast()) return;
 			let reply = "<b><u>Emoticons (" + Object.keys(emoticons).length + ")</u></b><br />";
 			for (let emote in emoticons) reply += "(" + emote + " <img src=\"" + emoticons[emote] + "\" height=\"40\" width=\"40\">) ";
 			this.sendReply('|raw|<div class="infobox infobox-limited">' + reply + '</div>');
+			break;
+
+		case 'ignore':
+			if (EM.ignoreEmotes[user.userid]) return this.errorReply("You are already ignoring emoticons.");
+			EM.ignoreEmotes[user.userid] = true;
+			fs.writeFileSync('config/ignoreemotes.json', JSON.stringify(EM.ignoreEmotes));
+			this.sendReply("You are now ignoring emoticons.");
+			break;
+
+		case 'unignore':
+			if (!EM.ignoreEmotes[user.userid]) return this.errorReply("You aren't ignoring emoticons.");
+			delete EM.ignoreEmotes[user.userid];
+			fs.writeFileSync('config/ignoreemotes.json', JSON.stringify(EM.ignoreEmotes));
+			this.sendReply("You are no longer ignoring emoticons.");
 			break;
 
 		default:
@@ -94,9 +138,13 @@ exports.commands = {
 				"<small>/emoticon may be substituted with /emoticons, /emotes, or /emote</small><br />" +
 				"/emoticon add, [name], [url] - Adds an emoticon.<br />" +
 				"/emoticon del/delete/remove/rem, [name] - Removes an emoticon.<br />" +
+				"/emoticon enable/on/disable/off - Enables or disables emoticons in the current room.<br />" +
 				"/emoticon view/list - Displays the list of emoticons.<br />" +
-				"/emoticon help - Displays this help command.<br />"
-				);
+				"/emoticon ignore - Ignores emoticons in chat messages.<br />" +
+				"/emoticon unignore - Unignores emoticons in chat messages.<br />" +
+				"/emoticon help - Displays this help command.<br />" +
+				"<a href=\"https://gist.github.com/jd4564/ef66ecc47c58b3bb06ec\">Emoticon Plugin by: jd</a>"
+			);
 			break;
 		}
 	},
